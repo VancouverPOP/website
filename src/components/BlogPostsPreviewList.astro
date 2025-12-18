@@ -1,23 +1,25 @@
 ---
-import { getCollection } from 'astro:content'
-import FormattedDate from '../components/FormattedDate.astro'
+import { getCollection } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
 
 interface Props {
-    postsLimit: number
-    maxTitleLength: number
+    postsLimit: number;
+    maxTitleLength: number;
 }
 
-const { postsLimit, maxTitleLength } = Astro.props
+const { postsLimit, maxTitleLength } = Astro.props;
 
 const posts = (await getCollection('blog'))
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-    .slice(0, postsLimit)
+    .slice(0, postsLimit);
 ---
 
 <section
     class="m-auto max-w-7xl py-12 px-8 md:flex md:flex-col md:items-center md:mx-auto xl:px-0"
 >
-    <div class="w-full max-w-7xl text-st-black grid grid-cols-1 md:grid-cols-4">
+    <div
+        class="w-full max-w-7xl text-[#cc007a] grid grid-cols-1 md:grid-cols-4"
+    >
         <h2 class="font-mixta font-bold m-0 text-4xl md:mx-8 mb-6">
             Our articles
         </h2>

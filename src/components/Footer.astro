@@ -29,7 +29,7 @@ const links: LearnMoreLink[] = [
 const today = new Date();
 ---
 
-<footer class="text-center bg-st-black text-white pt-8 px-4 pb-20">
+<footer class="text-center bg-vp-graphite text-white pt-8 px-4 pb-20">
     <div
         class="font-freight flex flex-col md:flex-row justify-between px-4 mb-10 max-w-3xl mx-auto"
     >
@@ -87,7 +87,7 @@ const today = new Date();
                     links.map((link) => (
                         <a
                             href={link.link}
-                            class="text-white text-base hover:text-st-lightblue pt-2"
+                            class=" text-base pt-2 transition-all duration-300 hover:underline underline-offset-4 decoration-2"
                         >
                             {link.name}
                         </a>
@@ -98,9 +98,9 @@ const today = new Date();
     </div>
 
     <p class="font-mixta text-base max-w-4xl m-0 mx-auto">
-        &copy; {today.getFullYear()} VanPOP. We believe in creating
-        communities which work for everyone. Vancouver is situated on the unceded
-        traditional territories of the xʷməθkʷəy̓əm (Musqueam), Sḵwx̱wú7mesh (Squamish),
-        and səlilwətaɬ (Tsleil-Waututh) Nations.
+        &copy; {today.getFullYear()} VanPOP. We believe in creating communities which
+        work for everyone. Vancouver is situated on the unceded traditional territories
+        of the xʷməθkʷəy̓əm (Musqueam), Sḵwx̱wú7mesh (Squamish), and səlilwətaɬ (Tsleil-Waututh)
+        Nations.
     </p>
 </footer>
