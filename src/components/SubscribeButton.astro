@@ -1,0 +1,70 @@
+---
+import BrevoMiniForm from './BrevoMiniForm.astro';
+---
+
+<button
+    id="subscribeBtn"
+    class="flex font-synthese gap-2 p-3 h-12 cursor-pointer items-center rounded-xl text-white bg-vp-purple hover:-translate-y-0.5 duration-300 hover:shadow-sm hover:opacity-85 hover:shadow-black/50"
+>
+    <svg
+        fill="currentColor"
+        class="w-5 h-5"
+        viewBox="0 -3 33 33"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
+            id="SVGRepo_tracerCarrier"
+            stroke-linecap="round"
+            stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier">
+            <title>envelope</title>
+            <path
+                d="M28 3.75h-24c-1.794 0.002-3.248 1.456-3.25 3.25v18c0.002 1.794 1.456 3.248 3.25 3.25h24c1.794-0.001 3.249-1.456 3.25-3.25v-18c-0.002-1.794-1.456-3.248-3.25-3.25h-0zM4 6.25h24c0.219 0.001 0.415 0.097 0.549 0.248l0.001 0.001-12.55 8.964-12.55-8.964c0.135-0.152 0.331-0.248 0.549-0.249h0zM28 25.75h-24c-0.414-0-0.75-0.336-0.75-0.75v-15.571l12.023 8.588c0.031 0.018 0.069 0.037 0.108 0.054l0.008 0.003c0.031 0.018 0.068 0.037 0.107 0.054l0.008 0.003c0.145 0.070 0.315 0.113 0.494 0.118l0.002 0h0.002c0.181-0.005 0.351-0.048 0.503-0.121l-0.008 0.003c0.046-0.020 0.084-0.039 0.12-0.060l-0.006 0.003c0.047-0.020 0.085-0.040 0.121-0.061l-0.006 0.003 12.023-8.588v15.571c-0 0.414-0.336 0.75-0.75 0.75v0z"
+            ></path>
+        </g></svg
+    >
+    <span>Subscribe</span></button
+>
+<div id="overlay"></div>
+<div id="popup"><BrevoMiniForm /></div>
+
+<style>
+    #popup {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+    }
+
+    #overlay {
+        display: none;
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+    }
+
+    #popup.active,
+    #overlay.active {
+        display: flex;
+    }
+</style>
+
+<script>
+    const button = document.getElementById('subscribeBtn');
+    const popup = document.getElementById('popup');
+    const overlay = document.getElementById('overlay');
+
+    button?.addEventListener('click', () => {
+        overlay?.classList.add('active');
+        popup?.classList.add('active');
+    });
+    overlay?.addEventListener('click', () => {
+        overlay.classList.remove('active');
+        popup?.classList.remove('active');
+    });
+</script>

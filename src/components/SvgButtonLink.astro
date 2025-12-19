@@ -3,19 +3,23 @@ interface Props {
     text: string;
     href: string;
     target?: '_blank' | '_parent' | '_top' | '_self';
-    hoverColor: 'st-lightblue-accessible';
+    hoverColor: 'vp-purple';
 }
 
 const { text, href, hoverColor, target = '_self' }: Props = Astro.props;
 
-const hoverBorderColor =
-    hoverColor === 'st-lightblue-accessible'
-        ? 'hover:border-st-lightblue-accessible'
-        : null;
-const hoverTextColor =
-    hoverColor === 'st-lightblue-accessible'
-        ? 'hover:text-st-lightblue-accessible'
-        : null;
+let borderColor = null;
+let textColor = null;
+let hoverBorderColor = null;
+let hoverTextColor = null;
+let hoverBackgroundColor = null;
+if (hoverColor === 'vp-purple') {
+    borderColor = 'border-vp-purple';
+    textColor = 'text-vp-purple';
+    hoverBorderColor = 'hover:border-vp-purple';
+    hoverTextColor = 'hover:text-white';
+    hoverBackgroundColor = 'hover:bg-vp-purple';
+}
 ---
 
 <a
@@ -30,14 +34,15 @@ const hoverTextColor =
         'group',
         'border-solid',
         'rounded-xl',
-        'border-vp-purple',
         'cursor-pointer',
-        'text-vp-purple',
-        'hover:text-white',
-        // hoverBorderColor,
-        // hoverTextColor,
+        textColor,
+        borderColor,
+        hoverBorderColor,
+        hoverTextColor,
+        hoverBackgroundColor,
+        'hover:shadow-sm',
+        'hover:shadow-black/50',
         'hover:border-transparent',
-        'hover:bg-vp-purple',
         'transition-all',
         'hover:opacity-95',
         'hover:-translate-y-0.5',

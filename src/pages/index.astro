@@ -5,9 +5,9 @@ import ContentWithBackground from '../components/ContentWithBackground.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import BlogPostPreviewList from '../components/BlogPostsPreviewList.astro';
 import BrevoSubscribeStyles from '../components/BrevoSubscribeStyles.astro';
-import BrevoMiniForm from '../components/BrevoMiniForm.astro';
 import BrevoScripts from '../components/BrevoScripts.astro';
 import SvgButtonLink from '../components/SvgButtonLink.astro';
+import SubscribeButton from '../components/SubscribeButton.astro';
 
 const INDEX_PAGE_BLOG_POSTS_LIMIT = 6;
 const MAX_TITLE_LENGTH = 45;
@@ -55,12 +55,13 @@ const PAGE_TITLE = `${SITE_TITLE}`;
                             on this journey. Keep up with our local actions,
                             news, and events for a resilient Vancouver!
                         </p>
-                        <div class="flex flex-wrap gap-4 items-center">
+                        <div class="flex flex-wrap gap-4 items-center mt-3.5">
+                            <SubscribeButton />
                             <SvgButtonLink
-                                text="Join our Discord"
+                                text="Discord"
                                 href="https://discord.com/invite/RXabm7CS46"
                                 target="_blank"
-                                hoverColor="st-lightblue-accessible"
+                                hoverColor="vp-purple"
                             >
                                 <svg
                                     class="w-5 h-5"
@@ -88,9 +89,9 @@ const PAGE_TITLE = `${SITE_TITLE}`;
                                 >
                             </SvgButtonLink>
                             <SvgButtonLink
-                                text="See our events"
+                                text="Events"
                                 href="#get-involved"
-                                hoverColor="st-lightblue-accessible"
+                                hoverColor="vp-purple"
                                 ><svg
                                     class="w-5 h-5"
                                     viewBox="0 -2 24 24"
@@ -99,8 +100,8 @@ const PAGE_TITLE = `${SITE_TITLE}`;
                                     <path
                                         d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"
                                     ></path>
-                                </svg></SvgButtonLink
-                            >
+                                </svg>
+                            </SvgButtonLink>
                         </div>
                     </div>
                     <div class="flex items-end">
