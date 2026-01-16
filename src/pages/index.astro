@@ -8,6 +8,7 @@ import BrevoSubscribeStyles from '../components/BrevoSubscribeStyles.astro';
 import BrevoScripts from '../components/BrevoScripts.astro';
 import SvgButtonLink from '../components/SvgButtonLink.astro';
 import SubscribeButton from '../components/SubscribeButton.astro';
+import InfoCard from '../components/InfoCard.astro';
 
 const INDEX_PAGE_BLOG_POSTS_LIMIT = 6;
 const MAX_TITLE_LENGTH = 45;
@@ -110,71 +111,17 @@ const PAGE_TITLE = `${SITE_TITLE}`;
                 postsLimit={INDEX_PAGE_BLOG_POSTS_LIMIT}
                 maxTitleLength={MAX_TITLE_LENGTH}
             />
-            <ContentWithBackground background="/bus-on-41st.jpg">
+            <ContentWithBackground background="/background.png" styleClass="bg-[50%_20%] md:bg-[40%_35%] lg:bg-[40%_20%]">
                 <section
-                    class="m-auto max-w-7xl py-12 px-8 md:flex md:flex-col md:items-center md:mx-auto xl:px-0"
+                    class="m-auto max-w-7xl py-12 px-8 md:flex md:flex-col md:items-center md:mx-auto xl:px-0 "
                 >
                     <div
-                        class="max-w-7xl text-white grid grid-cols-1 md:grid-cols-4"
+                        class="max-w-7xl text-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 m-auto md:mx-0 md:col-start-1 md:text-base gap-6"
                     >
-                        <h2
-                            class="font-mixta font-bold m-0 text-4xl md:mx-8 mb-6"
-                        >
-                            About us
-                        </h2>
-                        <div
-                            class="m-auto font-freight text-lg md:mx-0 md:col-start-2 md:col-span-3 md:text-base"
-                        >
-                            <p class="mb-4">
-                                VanPOP is a part of a global Strong Towns
-                                movement that has set its sights on transforming
-                                the way we envision and build our communities.
-                                The movement is rooted in a deep-seated passion
-                                for urban development and public policy, with a
-                                mission to foster sustainability, resilience,
-                                and vibrancy in communities across the globe. We
-                                exist to challenge conventional thinking,
-                                pushing boundaries and provoking fresh
-                                perspectives on urban development. Our goal is
-                                not just to inspire a new generation of
-                                urbanists, but to empower them to take action
-                                and drive change in their own communities.
-                            </p>
-                            <p class="mb-4">
-                                Established in late 2023, Strong Towns Vancouver
-                                is a piece of this dynamic global movement. We
-                                are more than just a local chapter – we are a
-                                local conversation! A collective of individuals
-                                from all sorts of personal and professional
-                                backgrounds dedicated to fostering a stronger
-                                and more resilient Vancouver. Our focus is on
-                                promoting models of development that will
-                                sustain and strengthen our city in the long
-                                term.
-                            </p>
-                            <p class="mb-4">
-                                We understand that building a stronger city goes
-                                beyond the physical infrastructure. It means
-                                cultivating a culture of thought-provoking
-                                conversations and engaging events that bring
-                                people together. It means providing valuable
-                                resources to help our community understand and
-                                implement our mission. But most importantly, it
-                                means driving action, no matter how small.
-                            </p>
-                            <p class="mb-4">
-                                We believe that each one of us has a role to
-                                play in making Vancouver stronger and more
-                                vibrant. Whether it's participating in a local
-                                event, contributing to a discussion, or simply
-                                spreading the word about our mission, every
-                                action counts. We invite you to join us on this
-                                transformative journey. Embrace the opportunity
-                                to be a part of a global change. Let's work to
-                                create a stronger, more resilient Vancouver,
-                                together!
-                            </p>
-                        </div>
+                            <InfoCard icon="🎯" title ="Our Local Mission" text="Established in late 2023, Strong Towns Vancouver – now VanPOP – a collective of diverse individuals committed to promoting development that will sustain and strengthen our city for the long term."/>
+                            <InfoCard icon="✅" title ="How We Work" text="Building a stronger city goes beyond infrastructure. We host thought-provoking conversations and engaging events, provide accessible resources, and drive action – no matter how small."/>
+                            <InfoCard icon="🚴" title ="Join the Movement" text="Everyone has a role in making Vancouver stronger. Attend an event, join a discussion, or spread the word – every action counts. Join us in creating a more resilient Vancouver, together."/>
+                            <InfoCard icon="🌎" title ="Global Movement " text="VanPOP is part of the global Strong Towns movement, challenging conventional thinking to empower urbanists and build sustainable, resilient communities worldwide."/>
                     </div>
                 </section>
             </ContentWithBackground>
@@ -186,7 +133,7 @@ const PAGE_TITLE = `${SITE_TITLE}`;
                     class="max-w-7xl text-st-black grid grid-cols-1 md:grid-cols-4"
                 >
                     <h2
-                        class="font-mixta font-bold m-0 text-4xl md:mx-8 mb-6 md:col-start-1 md:col-span-1"
+                        class="font-mixta font-bold m-0 text-4xl text-vp-purple md:mx-8 mb-6 md:col-start-1 md:col-span-1"
                     >
                         Get involved
                     </h2>

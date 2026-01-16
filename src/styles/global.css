@@ -9,18 +9,9 @@
     --color-vp-cyan: #ccffff;
     --color-vp-bright-yellow: #ffff66;
     /* modified colors */
-    --color-vp-terracotta: #DC9750;
-    --color-vp-slate-blue: #4E7799;
-    /* Muted governmental blue */
-    --color-vp-olive-gold: #998B4E;
-    /* Warm olive/mustard */
-    --color-vp-clay-brown: #997C4E;
-    /* Terracotta/clay */
-    --color-vp-cool-gray: #2f3030;
-    --color-vp-graphite: #3A4045;
-    --color-vp-sage: #5E9999;
-    --color-vp-bronze: #C4A366;
-    --color-vp-coral: #E17B7B;
+    --color-vp-pink: #cc007a;
+    --color-vp-light-pink: #fdf6fa;
+    --color-vp-dark-purple: #3d1d5c;
     --color-st-black: #0c2440;
     --color-st-yellow: #ffb549;
     --color-st-lightblue: #a7c6ed;
