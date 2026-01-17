@@ -12,14 +12,9 @@
     --color-vp-pink: #cc007a;
     --color-vp-light-pink: #fdf6fa;
     --color-vp-dark-purple: #3d1d5c;
-    --color-st-black: #0c2440;
-    --color-st-yellow: #ffb549;
-    --color-st-lightblue: #a7c6ed;
-    --color-st-lightblue-accessible: #5790db;
-    --color-st-gray: #60739F;
-    --color-st-gray-dark: #222939;
-    --color-st-callout: #E5E3DD;
-    --color-st-callout-text: #0c2340;
+    --color-vp-black: #0c2440;
+    --color-vp-callout: #E5E3DD;
+    --color-vp-callout-text: #0c2340;
 }
 
 @layer utilities {
@@ -28,14 +23,14 @@
     }
 
     .banner {
-        @apply text-lg pl-8 p-5 py-8 bg-st-callout rounded-lg mx-0 m-0 mt-1 md:mx-5;
+        @apply text-lg pl-8 p-5 py-8 bg-vp-callout rounded-lg mx-0 m-0 mt-1 md:mx-5;
     }
 }
 
 body {
     margin: 0;
     padding: 0;
-    color: var(--color-st-black);
+    color: var(--color-vp-black);
 }
 
 .grecaptcha-badge {
