@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-    --font-mixta: mixta-sharp, serif;
     --font-synthese: synthese, sans-serif;
     --font-freight: freight-text-pro, serif;
+    --font-raleway: "Raleway", sans-serif;
     /* suggested colors */
     --color-vp-purple: #663399;
     --color-vp-cyan: #ccffff;
