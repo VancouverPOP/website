@@ -112,17 +112,43 @@ const PAGE_TITLE = `${SITE_TITLE}`;
                 postsLimit={INDEX_PAGE_BLOG_POSTS_LIMIT}
                 maxTitleLength={MAX_TITLE_LENGTH}
             />
-            <ContentWithBackground background="/background.png" styleClass="bg-[50%_20%] md:bg-[40%_35%] lg:bg-[40%_20%]">
+            <ContentWithBackground
+                background="/background.png"
+                styleClass="bg-[50%_20%] md:bg-[40%_35%] lg:bg-[40%_20%]"
+            >
                 <section
-                    class="m-auto max-w-7xl py-12 px-8 md:flex md:flex-col md:items-center md:mx-auto xl:px-0 "
+                    class="m-auto max-w-7xl py-12 px-8 md:flex md:flex-col md:items-center md:mx-auto xl:px-0"
                 >
                     <div
                         class="max-w-7xl text-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 m-auto md:mx-0 md:col-start-1 md:text-base gap-6"
                     >
-                            <InfoCard icon="🎯" title ="Our Local Mission" text="Established in late 2023, Strong Towns Vancouver – now VanPOP – a collective of diverse individuals committed to promoting development that will sustain and strengthen our city for the long term."/>
-                            <InfoCard icon="✅" title ="How We Work" text="Building a stronger city goes beyond infrastructure. We host thought-provoking conversations and engaging events, provide accessible resources, and drive action – no matter how small."/>
-                            <InfoCard icon="🚴" title ="Join the Movement" text="Everyone has a role in making Vancouver stronger. Attend an event, join a discussion, or spread the word – every action counts. Join us in creating a more resilient Vancouver, together."/>
-                            <InfoCard icon="🌎" title ="Global Movement " text="VanPOP is part of the global Strong Towns movement, challenging conventional thinking to empower urbanists and build sustainable, resilient communities worldwide."/>
+                        <InfoCard
+                            icon="🎯"
+                            title="Our Local Mission"
+                            text=`Established in late 2023, Strong Towns Vancouver – now VanPOP – 
+                            a collective of diverse individuals committed to promoting development 
+                            that will sustain and strengthen our city for the long term.`
+                        />
+                        <InfoCard
+                            icon="✅"
+                            title="How We Work"
+                            text=`Building a stronger city goes beyond infrastructure. We host 
+                            thought-provoking conversations and engaging events, provide accessible 
+                            resources, and drive action – no matter how small.`
+                        />
+                        <InfoCard
+                            icon="🚴"
+                            title="Join the Movement"
+                            text=`Everyone has a role in making Vancouver stronger. Attend an event, 
+                            join a discussion, or spread the word – every action counts. 
+                            Join us in creating a more resilient Vancouver, together.`
+                        />
+                        <InfoCard
+                            icon="🌎"
+                            title="Global Movement "
+                            text=`VanPOP is part of the global Strong Towns movement, challenging conventional 
+                            thinking to empower urbanists and build sustainable, resilient communities worldwide.`
+                        />
                     </div>
                 </section>
             </ContentWithBackground>
