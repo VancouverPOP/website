@@ -25,10 +25,6 @@ const PAGE_TITLE = `Articles - ${SITE_TITLE}`
     </head>
     <body>
         <Header />
-        <PageTitle
-            title="All Strong Towns Vancouver Articles"
-            image="/bus-on-41st.jpg"
-        />
         <main class="m-auto max-w-5xl">
             <section class="mt-12">
                 <ul
@@ -51,10 +47,10 @@ const PAGE_TITLE = `Articles - ${SITE_TITLE}`
                                         alt={post.data.title}
                                         class="mb-2 rounded-lg object-cover h-64 md:h-72 lg:h-80 first:w-full"
                                     />
-                                    <h3 class="font-synthese mt-6 mb-2 m-0 text-2xl text-st-black leading-none">
+                                    <h3 class="font-synthese font-semibold mt-6 mb-2 m-0 text-2xl text-vp-black leading-none">
                                         {post.data.title}
                                     </h3>
-                                    <p class="font-synthese text-base py-1 text-st-black">
+                                    <p class="font-freight text-base py-1 text-vp-black">
                                         <FormattedDate
                                             date={post.data.pubDate}
                                         />

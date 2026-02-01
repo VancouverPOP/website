@@ -1,24 +1,26 @@
 ---
-import { getCollection } from 'astro:content'
-import FormattedDate from '../components/FormattedDate.astro'
+import { getCollection } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
 
 interface Props {
-    postsLimit: number
-    maxTitleLength: number
+    postsLimit: number;
+    maxTitleLength: number;
 }
 
-const { postsLimit, maxTitleLength } = Astro.props
+const { postsLimit, maxTitleLength } = Astro.props;
 
 const posts = (await getCollection('blog'))
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-    .slice(0, postsLimit)
+    .slice(0, postsLimit);
 ---
 
 <section
     class="m-auto max-w-7xl py-12 px-8 md:flex md:flex-col md:items-center md:mx-auto xl:px-0"
 >
-    <div class="w-full max-w-7xl text-st-black grid grid-cols-1 md:grid-cols-4">
-        <h2 class="font-mixta font-bold m-0 text-4xl md:mx-8 mb-6">
+    <div class="w-full max-w-7xl grid grid-cols-1 md:grid-cols-4">
+        <h2
+            class="font-raleway text-vp-purple font-bold m-0 text-4xl md:mx-8 mb-6"
+        >
             Our articles
         </h2>
         <div class="md:col-start-2 md:col-span-3">
@@ -38,12 +40,12 @@ const posts = (await getCollection('blog'))
                                     src={post.data.heroImage}
                                     alt={post.data.title}
                                 />
-                                <h3 class="font-synthese font-semibold text-lg mb-1 text-st-black pt-3 my-0">
+                                <h3 class="font-synthese font-semibold text-lg mb-1 text-pv-black pt-3 my-0">
                                     {post.data.title.length > maxTitleLength
                                         ? `${post.data.title.slice(0, maxTitleLength)}...`
                                         : post.data.title}
                                 </h3>
-                                <p class="font-freight text-base pb-8 md:pb-1 text-st-black">
+                                <p class="font-freight text-base pb-8 md:pb-1 text-vp-black">
                                     <FormattedDate date={post.data.pubDate} />
                                     {' by '}
                                     {post.data.author}
@@ -54,8 +56,9 @@ const posts = (await getCollection('blog'))
                 }
             </ul>
             <div class="px-5 w-full max-w-5xl mb-2 mt-2 text-right md:px-0">
-                <a class="font-synthese font-bold text-xl" href="/blog"
-                    >See more articles →</a
+                <a
+                    class="font-raleway text-vp-purple font-bold text-xl"
+                    href="/blog">See more articles →</a
                 >
             </div>
         </div>

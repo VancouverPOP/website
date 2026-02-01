@@ -8,13 +8,10 @@ const { background, styleClass } = Astro.props;
 ---
 
 <div
-    class=`mx-auto h-full bg-cover md:bg-center bg-bottom bg-no-repeat shadow-lg ${styleClass || ''}`
+    class=`mx-auto h-full bg-cover bg-no-repeat  ${styleClass || ''} bg-vp-light-pink shadow-md`
     style={`background-image: url('${background}')`}
 >
-    <div
-        class=`w-full h-full text-white`
-        style="background-color: rgba(0, 0, 0, 0.8)"
-    >
+    <div class="w-full h-full text-vp-black">
         <slot />
     </div>
 </div>

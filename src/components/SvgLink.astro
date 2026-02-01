@@ -1,13 +1,16 @@
 ---
 interface Props {
-    text: string
-    href: string
+    text: string;
+    href: string;
 }
 
-const { text, href } = Astro.props
+const { text, href } = Astro.props;
 ---
 
 <a class="flex flex-row items-center" href={href} target="_blank">
     <slot />
-    <span class="pl-2 text-base hover:text-st-lightblue">{text}</span>
+    <span
+        class="pl-2 text-base transition-all duration-300 hover:underline underline-offset-4 decoration-2"
+        >{text}</span
+    >
 </a>

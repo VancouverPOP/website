@@ -1,10 +1,10 @@
-# Strong Towns Vancouver website
+# VanPOP website
 
-This is a repository for the Strong Towns Vancouver local conversation website source code. You can find this website online at <https://strongtownsvan.org/>.
+This is a repository for the VanPOP website source code. You can find this website online at <https://vanpop.ca/>.
 
 ## 🚀 Project Structure
 
-Strong Towns Vancouver is a [JAMstack](https://jamstack.org/what-is-jamstack/) static web application written in TypeScript using Astro framework. Inside of this project, you'll see the following folders:
+VanPOP website is a [JAMstack](https://jamstack.org/what-is-jamstack/) static web application written in TypeScript using Astro framework. Inside of this project, you'll see the following folders:
 
 ```text
 ├── public/
@@ -19,7 +19,7 @@ All website pages are defined in `src/pages/` folder as `.astro` or `.md` files.
 
 The `src/components/` folder contains various reusable components for a website. Example of these components are header, footer, page links, etc. Components are defined in `.astro` files.
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Strong Towns blog posts are stored in this folder. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+The `src/content/` directory contains "collections" of related Markdown and MDX documents. VanPOP blog posts are stored in this folder. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
 
 Any static assets, like images, are placed in the `public/` directory.
 
@@ -33,7 +33,7 @@ Here are guides to run dev container in [Visual Studio Code](https://code.visual
 
 ### Run manually
 
-Strong Towns website uses `pnpm`. In order to run it locally, you need to have Node.js and pnpm installed.
+VanPOP website uses `pnpm`. In order to run it locally, you need to have Node.js and pnpm installed.
 
 - [Installing Node.js](https://nodejs.org/en/download/current)
 - [Installing pnpm](https://pnpm.io/installation)
@@ -55,8 +55,8 @@ Check out [Astro documentation](https://docs.astro.build) to get familiar with t
 
 ### Want to add new blog post?
 
-If you want to add a new blog post, feel free to create a Pull Request with new post placed in [src/content/blog](https://github.com/StrongTownsVancouver/website/tree/main/src/content/blog). If you're not feeling confident using GitHub and development tools, feel free to send a draft of your post along with original images to any of the Strong Towns Vancouver administrators, they will be happy to help you get published.
+If you want to add a new blog post, feel free to create a Pull Request with new post placed in [src/content/blog](https://github.com/VancouverPOP/website/tree/main/src/content/blog). If you're not feeling confident using GitHub and development tools, feel free to send a draft of your post along with original images to any of the VanPOP administrators, they will be happy to help you get published.
 
 ## Deployment
 
-This website is deployed using Cloudflare pages. Deployment happens from `main` branch on every new push. Current production deployment can be found [here](https://dash.cloudflare.com/f722cdce5f340e4988649624ffd3de49/pages/view/strongtownsvan). Please talk to any of the Strong Towns Vancouver administrators to get access if you need it.
+This website is deployed using Cloudflare pages. Deployment happens from `main` branch on every new push. Please talk to any of the VanPOP administrators for more information or access.
