@@ -40,7 +40,7 @@ const posts = (await getCollection('blog'))
                                     src={post.data.heroImage}
                                     alt={post.data.title}
                                 />
-                                <h3 class="font-synthese font-semibold text-lg mb-1 text-pv-black pt-3 my-0">
+                                <h3 class="font-synthese font-semibold text-lg mb-1 text-vp-black pt-3 my-0">
                                     {post.data.title.length > maxTitleLength
                                         ? `${post.data.title.slice(0, maxTitleLength)}...`
                                         : post.data.title}
