@@ -1,4 +1,5 @@
 {
+    "$schema": "https://raw.githubusercontent.com/devcontainers/spec/refs/heads/main/schemas/devContainer.schema.json",
     "name": "Debian Container (amd64)",
     "dockerFile": "../Dockerfile",
     "containerUser": "dev",
@@ -11,6 +12,7 @@
             "NODE_PLATFORM": "linux-x64"
         }
     },
+    "appPort": ["4321:4321"],
     "customizations": {
         "vscode": {
             "settings": {
