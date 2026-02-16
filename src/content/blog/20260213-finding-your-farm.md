@@ -8,7 +8,7 @@ author: Kip Santos
 Whether you’re a seasoned urbanist or a relatively new urbanist, you may have heard the terms “small-scale development” or “incremental housing”, but have wondered what it is or how to get started.  I’ve been following three leaders in the field of urban-friendly development and I’m impressed with how they concisely explain their initiatives.  For example, have you heard the catchy phrases, “find your farm” or “unleash the swarm”?  After many years receiving lots of guidance entering the world of small-scale development, I too, hope to offer a few tidbits that can help others forge their own unique path to action - even if you are limited by physical location, cash flow, professional network, or phase of life.
 
 <br>
-    
+
 ## Organizations that Support Small-Scale Developers like You and Me
 
 <br>
@@ -63,10 +63,10 @@ I would relish the opportunity to help ST, IncDev, and NEVO provide more support
 <center><img class="blog-image" src="/blog-assets/20260213-finding-your-farm/5.png" alt="Chart"></center>
 <br/>
 
-The charts above (clearer slides [here](https://docs.google.com/presentation/d/1004ohc2Gwj7YB6CpTL0lTj6gtjkmotCSfisdfN-HEU8/edit?usp=sharing), with sources in slide notes) show various examples of ways that small-scale developers can start joining the movement, even if you are:
+The charts above ([clearer slides here](https://docs.google.com/presentation/d/1004ohc2Gwj7YB6CpTL0lTj6gtjkmotCSfisdfN-HEU8/edit?usp=sharing), with sources in slide notes) show various examples of ways that small-scale developers can start joining the movement, even if you are:
 
-1. young, 
-2. inexperienced, 
+1. young,
+2. inexperienced,
 3. geographically transient, or
 4. have limited investment capital.
 
@@ -82,7 +82,7 @@ How to use the chart above?  I want to highlight that the x-axis states “perso
 
 <br/>
 
-If you’re stationary (at least for now), want to be highly involved in your project, and can self-perform many of the day-to-day tasks, you could convert space in your home into a rentable bedroom ([like Noah Tang of ST BloNo did](https://www.strongtowns.org/journal/2025-02-04-co-living-provides-community-not-just-housing)) or create a [pop-up shop or temporary cafe](https://www.spocket.co/blogs/pop-up-shop) for as little as a few thousand dollars.  If you cannot be involved in the development and do not have much investment capital available, small-scale development crowdfunding platforms like [Small Change](https://www.smallchange.co/projects), [Neighborhood Ventures](https://neighborhood.ventures/offerings/), [Honeycomb Credit](https://www.honeycombcredit.com/), or the [Rhode Island Community Investment Cooperative](https://ricommunityinvestment.com/invest/).  They are great because they invite many types of investors with a very low barrier-to-entry (minimum investments of $250, $1K, $5K) and direct public offerings. 
+If you’re stationary (at least for now), want to be highly involved in your project, and can self-perform many of the day-to-day tasks, you could convert space in your home into a rentable bedroom ([like Noah Tang of ST BloNo did](https://www.strongtowns.org/journal/2025-02-04-co-living-provides-community-not-just-housing)) or create a [pop-up shop or temporary cafe](https://www.spocket.co/blogs/pop-up-shop) for as little as a few thousand dollars.  If you cannot be involved in the development and do not have much investment capital available, small-scale development crowdfunding platforms like [Small Change](https://www.smallchange.co/projects), [Neighborhood Ventures](https://neighborhood.ventures/offerings/), [Honeycomb Credit](https://www.honeycombcredit.com/), or the [Rhode Island Community Investment Cooperative](https://ricommunityinvestment.com/invest/).  They are great because they invite many types of investors with a very low barrier-to-entry (minimum investments of $250, $1K, $5K) and direct public offerings.
 
 <br/>
 
@@ -98,13 +98,13 @@ In the chart above, I want to reiterate that the y-axis states personal “inves
 
 <br/>
 
-If you’re like me, you like what you hear and you want to join the growing "swarm" of small-scale developers and builders.  Wait, what is the “swarm”?  The term “swarm” was coined by urban planner [Kevin Klinkenberg](https://www.kevinklinkenberg.com/) and referenced by [Daniel Herriges](https://www.strongtowns.org/contributors-journal/daniel-herriges) in his free e-book, [Unleash the Swarm](https://archive.strongtowns.org/journal/2021/12/13/unleash-the-swarm-a-new-e-book-on-reviving-small-scale-development):    
+If you’re like me, you like what you hear and you want to join the growing "swarm" of small-scale developers and builders.  Wait, what is the “swarm”?  The term “swarm” was coined by urban planner [Kevin Klinkenberg](https://www.kevinklinkenberg.com/) and referenced by [Daniel Herriges](https://www.strongtowns.org/contributors-journal/daniel-herriges) in his free e-book, [Unleash the Swarm](https://archive.strongtowns.org/journal/2021/12/13/unleash-the-swarm-a-new-e-book-on-reviving-small-scale-development):
 
 <br/>
 <center><img class="blog-image" src="/blog-assets/20260213-finding-your-farm/6.png" alt="Unleash the swarm"></center>
 <br/>
 
-Even “swarm” is a bit of a misnomer too because it doesn’t have anything to do with honeybees, insect migrations, or entities overwhelming places with malicious intent.  According to Herriges’ e-book, “unleashing the swarm” means: 
+Even “swarm” is a bit of a misnomer too because it doesn’t have anything to do with honeybees, insect migrations, or entities overwhelming places with malicious intent.  According to Herriges’ e-book, “unleashing the swarm” means:
 
 <br/>
 
