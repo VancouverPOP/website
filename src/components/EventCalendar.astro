@@ -1,0 +1,443 @@
+---
+import { GOOGLE_CALENDAR_ID } from '../consts';
+
+
+const MONTHS_TO_FETCH = 6;
+const GOOGLE_CALENDAR_API_KEY = import.meta.env.CALENDAR_API_KEY;
+
+interface CalendarEvent {
+    summary?: string;
+    description?: string;
+    location?: string;
+    start: { date?: string; dateTime?: string };
+    end: { date?: string; dateTime?: string };
+}
+
+const now = new Date();
+const timeMin = now.toISOString();
+const futureDate = new Date(now.getFullYear(), now.getMonth() + MONTHS_TO_FETCH + 1, 0);
+const timeMax = futureDate.toISOString();
+
+let events: CalendarEvent[] = [];
+let fetchError = false;
+
+try {
+    const params = new URLSearchParams({
+        key: GOOGLE_CALENDAR_API_KEY,
+        timeMin,
+        timeMax,
+        singleEvents: 'true',
+        orderBy: 'startTime',
+        maxResults: '250',
+    });
+
+    const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(GOOGLE_CALENDAR_ID)}/events?${params}`;
+    const response = await fetch(url);
+
+    if (response.ok) {
+        const data = await response.json();
+        events = data.items.map((item: CalendarEvent) => ({
+            summary: item.summary,
+            description: item.description,
+            location: item.location,
+            start: {
+                date: item.start.date,
+                dateTime: item.start.dateTime,
+            },
+            end: {
+                date: item.end.date,
+                dateTime: item.end.dateTime,
+            },
+        }));
+    } else {
+        console.error(`Google Calendar API error: ${response.status} ${response.statusText}`);
+        fetchError = true;
+    }
+} catch (err) {
+    console.error('Failed to fetch calendar events at build time:', err);
+    fetchError = true;
+}
+
+const buildMonth = now.getMonth();
+const buildYear = now.getFullYear();
+---
+
+<div
+    id="event-calendar"
+    class="w-full"
+    data-build-month={buildMonth}
+    data-build-year={buildYear}
+>
+    <!-- Pre-fetched event data embedded at build time -->
+    <script
+        is:inline
+        id="cal-event-data"
+        type="application/json"
+        set:html={JSON.stringify(events)}
+    />
+
+    <!-- Month Navigation Header -->
+    <div class="flex items-center justify-between mb-6">
+        <button
+            id="cal-prev"
+            type="button"
+            class="flex items-center gap-1 border border-vp-purple text-vp-purple rounded-xl px-4 py-2 font-raleway font-bold text-sm transition-all duration-300 hover:bg-vp-purple hover:text-white hover:-translate-y-0.5 hover:shadow-sm"
+            aria-label="Previous month"
+        >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                ></path>
+            </svg>
+            Prev
+        </button>
+        <h3
+            id="cal-month-label"
+            class="font-raleway font-bold text-xl md:text-2xl text-vp-purple m-0"
+        >
+            Loading...
+        </h3>
+        <button
+            id="cal-next"
+            type="button"
+            class="flex items-center gap-1 border border-vp-purple text-vp-purple rounded-xl px-4 py-2 font-raleway font-bold text-sm transition-all duration-300 hover:bg-vp-purple hover:text-white hover:-translate-y-0.5 hover:shadow-sm"
+            aria-label="Next month"
+        >
+            Next
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                ></path>
+            </svg>
+        </button>
+    </div>
+
+    {
+        fetchError ? (
+            <!-- Build-time error state rendered server-side -->
+            <div class="py-12 text-center">
+                <svg
+                    class="w-12 h-12 mx-auto text-vp-purple/40 mb-4"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                >
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                </svg>
+                <p class="font-raleway text-vp-black/60">
+                    Unable to load events due to system error. Please check back later.
+                </p>
+            </div>
+        ) : (
+            <>
+                <!-- Empty State (shown/hidden by client JS) -->
+                <div
+                    id="cal-empty"
+                    class="hidden py-12 text-center"
+                >
+                    <svg
+                        class="w-12 h-12 mx-auto text-vp-purple/40 mb-4"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                    >
+                        <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" />
+                    </svg>
+                    <p class="font-raleway text-vp-black/60">
+                        No upcoming events this month.
+                    </p>
+                </div>
+
+                <!-- Events List Container -->
+                <div
+                    id="cal-events"
+                    class="flex flex-col gap-4"
+                />
+            </>
+        )
+    }
+</div>
+
+<script>
+    interface CalendarEvent {
+        summary?: string;
+        description?: string;
+        location?: string;
+        start: { date?: string; dateTime?: string };
+        end: { date?: string; dateTime?: string };
+    }
+
+    const MONTH_NAMES = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+    ] as const;
+
+    const DAY_NAMES = [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+    ] as const;
+
+    function formatTime(dateStr: string): string {
+        const date = new Date(dateStr);
+        return date.toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+        });
+    }
+
+    function formatDayDate(dateStr: string): {
+        dayName: string;
+        dayNum: number;
+        monthShort: string;
+    } {
+        const date = new Date(dateStr);
+        return {
+            dayName: DAY_NAMES[date.getDay()],
+            dayNum: date.getDate(),
+            monthShort: MONTH_NAMES[date.getMonth()]
+                .slice(0, 3)
+                .toUpperCase(),
+        };
+    }
+
+    function isAllDay(event: CalendarEvent): boolean {
+        return !!event.start.date && !event.start.dateTime;
+    }
+
+    function getEventStartDate(event: CalendarEvent): string {
+        return event.start.dateTime || event.start.date || '';
+    }
+
+    function getEventEndDate(event: CalendarEvent): string {
+        return event.end.dateTime || event.end.date || '';
+    }
+
+    function escapeHtml(text: string): string {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function getEventMonth(event: CalendarEvent): {
+        year: number;
+        month: number;
+    } {
+        const dateStr = getEventStartDate(event);
+        const date = new Date(dateStr);
+        return { year: date.getFullYear(), month: date.getMonth() };
+    }
+
+    function filterEventsByMonth(
+        allEvents: CalendarEvent[],
+        year: number,
+        month: number
+    ): CalendarEvent[] {
+        return allEvents.filter((event) => {
+            const { year: ey, month: em } = getEventMonth(event);
+            return ey === year && em === month;
+        });
+    }
+
+    function renderEvent(event: CalendarEvent): string {
+        const title = escapeHtml(event.summary || 'Untitled Event');
+        const location = escapeHtml(event.location || '');
+        const description = event.description || '';
+        const allDay = isAllDay(event);
+        const startStr = getEventStartDate(event);
+        const endStr = getEventEndDate(event);
+        const { dayName, dayNum, monthShort } = formatDayDate(startStr);
+
+        let timeDisplay = 'All Day';
+        if (!allDay) {
+            timeDisplay = `${formatTime(startStr)} - ${formatTime(endStr)}`;
+        }
+
+        // Strip HTML tags from description for plain text display, then escape
+        const plainDescription = description.replace(/<[^>]*>/g, '').trim();
+        const truncatedDesc = escapeHtml(
+            plainDescription.length > 200
+                ? plainDescription.slice(0, 200) + '...'
+                : plainDescription
+        );
+
+        return `
+            <div class="event-card flex gap-4 bg-vp-light-pink rounded-xl p-4 md:p-5 shadow-sm transition-all duration-300 hover:shadow-md">
+                <div class="event-date-badge flex flex-col items-center justify-center min-w-16 md:min-w-20 rounded-lg bg-vp-dark-purple text-white py-3 px-2">
+                    <span class="font-raleway text-xs font-bold tracking-wider opacity-80">${monthShort}</span>
+                    <span class="font-raleway text-2xl md:text-3xl font-bold leading-none">${dayNum}</span>
+                    <span class="font-raleway text-xs opacity-80">${dayName.slice(0, 3)}</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <h4 class="font-raleway font-bold text-base md:text-lg text-vp-black m-0 mb-1">${title}</h4>
+                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1">
+                        <span class="font-freight text-sm text-vp-purple flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"></path>
+                            </svg>
+                            ${timeDisplay}
+                        </span>
+                        ${
+                            location
+                                ? `
+                        <span class="font-freight text-sm text-vp-black/60 flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path>
+                            </svg>
+                            ${location}
+                        </span>`
+                                : ''
+                        }
+                    </div>
+                    ${truncatedDesc ? `<p class="font-raleway text-sm text-vp-black/70 m-0 leading-relaxed">${truncatedDesc}</p>` : ''}
+                </div>
+            </div>
+        `;
+    }
+
+    function initCalendar() {
+        const container = document.getElementById('event-calendar');
+        if (!container) return;
+
+        // Read pre-fetched event data from the embedded JSON script tag
+        const dataScript = document.getElementById('cal-event-data');
+        if (!dataScript) return;
+
+        let allEvents: CalendarEvent[];
+        try {
+            allEvents = JSON.parse(dataScript.textContent || '[]');
+        } catch {
+            return;
+        }
+
+        const monthLabelEl = document.getElementById(
+            'cal-month-label'
+        ) as HTMLElement | null;
+        const prevBtnEl = document.getElementById(
+            'cal-prev'
+        ) as HTMLButtonElement | null;
+        const nextBtnEl = document.getElementById(
+            'cal-next'
+        ) as HTMLButtonElement | null;
+        const emptyEl = document.getElementById(
+            'cal-empty'
+        ) as HTMLElement | null;
+        const eventsListEl = document.getElementById(
+            'cal-events'
+        ) as HTMLElement | null;
+
+        if (!monthLabelEl || !prevBtnEl || !nextBtnEl || !emptyEl || !eventsListEl)
+            return;
+
+        const monthLabel: HTMLElement = monthLabelEl;
+        const prevBtn: HTMLButtonElement = prevBtnEl;
+        const nextBtn: HTMLButtonElement = nextBtnEl;
+        const empty: HTMLElement = emptyEl;
+        const eventsList: HTMLElement = eventsListEl;
+
+        // Use build-time month as the baseline (data-build-month, data-build-year)
+        const buildMonth = parseInt(
+            container.dataset.buildMonth || '0',
+            10
+        );
+        const buildYear = parseInt(
+            container.dataset.buildYear || '2026',
+            10
+        );
+
+        let currentYear = buildYear;
+        let currentMonth = buildMonth;
+
+        // Determine the furthest month with data for limiting navigation
+        let maxYear = buildYear;
+        let maxMonth = buildMonth;
+        for (const event of allEvents) {
+            const { year, month } = getEventMonth(event);
+            if (year > maxYear || (year === maxYear && month > maxMonth)) {
+                maxYear = year;
+                maxMonth = month;
+            }
+        }
+
+        function renderMonth(year: number, month: number) {
+            const monthEvents = filterEventsByMonth(allEvents, year, month);
+
+            if (monthEvents.length === 0) {
+                empty.classList.remove('hidden');
+                eventsList.classList.add('hidden');
+            } else {
+                empty.classList.add('hidden');
+                eventsList.classList.remove('hidden');
+                eventsList.innerHTML = monthEvents.map(renderEvent).join('');
+            }
+        }
+
+        function updateMonth(year: number, month: number) {
+            currentYear = year;
+            currentMonth = month;
+            monthLabel.textContent = `${MONTH_NAMES[month]} ${year}`;
+
+            // Disable prev button if viewing the build month (earliest with data)
+            const isFirstMonth =
+                year === buildYear && month === buildMonth;
+            prevBtn.disabled = isFirstMonth;
+            prevBtn.classList.toggle('opacity-40', isFirstMonth);
+            prevBtn.classList.toggle('cursor-not-allowed', isFirstMonth);
+
+            // Disable next button if viewing the last month with data
+            const isLastMonth =
+                year === maxYear && month === maxMonth;
+            nextBtn.disabled = isLastMonth;
+            nextBtn.classList.toggle('opacity-40', isLastMonth);
+            nextBtn.classList.toggle('cursor-not-allowed', isLastMonth);
+
+            renderMonth(year, month);
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (prevBtn.disabled) return;
+            let newMonth = currentMonth - 1;
+            let newYear = currentYear;
+            if (newMonth < 0) {
+                newMonth = 11;
+                newYear--;
+            }
+            updateMonth(newYear, newMonth);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (nextBtn.disabled) return;
+            let newMonth = currentMonth + 1;
+            let newYear = currentYear;
+            if (newMonth > 11) {
+                newMonth = 0;
+                newYear++;
+            }
+            updateMonth(newYear, newMonth);
+        });
+
+        // Initialize with the build month
+        updateMonth(currentYear, currentMonth);
+    }
+
+    // Run on initial load and on Astro page transitions
+    document.addEventListener('astro:page-load', initCalendar);
+
+    // Fallback: if no Astro transitions, run on DOMContentLoaded
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCalendar);
+    } else {
+        initCalendar();
+    }
+</script>
