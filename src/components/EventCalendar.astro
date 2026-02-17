@@ -228,6 +228,47 @@ const buildYear = now.getFullYear();
         };
     }
 
+    function isUrl(str: string): boolean {
+        try {
+            const url = new URL(str);
+            return url.protocol === 'http:' || url.protocol === 'https:';
+        } catch {
+            return false;
+        }
+    }
+
+    function getLinkLabel(url: string): string {
+        const hostname = new URL(url).hostname;
+        if (hostname === 'zoom.us' || hostname.endsWith('.zoom.us')) {
+            return 'Online (Zoom Meeting)';
+        }
+        return 'Link';
+    }
+
+    function renderLocation(
+        locationWrapper: HTMLElement,
+        locationEl: HTMLElement,
+        location: string
+    ): void {
+        if (!location) {
+            locationWrapper.classList.add('hidden');
+            return;
+        }
+
+        if (isUrl(location)) {
+            const anchor = document.createElement('a');
+            anchor.href = location;
+            anchor.target = '_blank';
+            anchor.rel = 'noopener noreferrer';
+            anchor.textContent = getLinkLabel(location);
+            anchor.className =
+                'underline hover:text-vp-purple transition-colors';
+            locationEl.replaceChildren(anchor);
+        } else {
+            locationEl.textContent = location;
+        }
+    }
+
     function isAllDay(event: CalendarEvent): boolean {
         return !!event.start.date && !event.start.dateTime;
     }
@@ -289,17 +330,12 @@ const buildYear = now.getFullYear();
             : `${formatTime(startStr)} - ${formatTime(endStr)}`;
         card.querySelector('[data-field="time"]')!.textContent = timeDisplay;
 
-        // Location (hide wrapper when absent)
-        const locationWrapper = card.querySelector(
-            '[data-field="location-wrapper"]'
-        ) as HTMLElement;
-        const location = event.location || '';
-        if (location) {
-            card.querySelector('[data-field="location"]')!.textContent =
-                location;
-        } else {
-            locationWrapper.classList.add('hidden');
-        }
+        // Location
+        renderLocation(
+            card.querySelector('[data-field="location-wrapper"]') as HTMLElement,
+            card.querySelector('[data-field="location"]') as HTMLElement,
+            event.location || ''
+        );
 
         const descEl = card.querySelector(
             '[data-field="description"]'
