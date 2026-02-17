@@ -43,9 +43,7 @@ export function formatDayDate(dateStr: string): {
     return {
         dayName: DAY_NAMES[date.getDay()],
         dayNum: date.getDate(),
-        monthShort: MONTH_NAMES[date.getMonth()]
-            .slice(0, 3)
-            .toUpperCase(),
+        monthShort: MONTH_NAMES[date.getMonth()].slice(0, 3).toUpperCase(),
     };
 }
 
@@ -66,6 +64,22 @@ export function getLinkLabel(url: string): string {
     return 'Link';
 }
 
+/**
+ * Returns the venue name from a full Google Calendar location string.
+ * Strips the street address, city, postal code, and country by taking
+ * only the first comma-separated segment.
+ *
+ * Example: "Vancouver Public Library - Central Library, 350 W Georgia St, Vancouver, BC V6B 6B1, Canada"
+ *       -> "Vancouver Public Library - Central Library"
+ */
+export function shortenLocation(location: string): string {
+    const firstComma = location.indexOf(',');
+    if (firstComma === -1) {
+        return location.trim();
+    }
+    return location.slice(0, firstComma).trim();
+}
+
 export function renderLocation(
     locationWrapper: HTMLElement,
     locationEl: HTMLElement,
@@ -82,11 +96,10 @@ export function renderLocation(
         anchor.target = '_blank';
         anchor.rel = 'noopener noreferrer';
         anchor.textContent = getLinkLabel(location);
-        anchor.className =
-            'underline hover:text-vp-purple transition-colors';
+        anchor.className = 'underline hover:text-vp-purple transition-colors';
         locationEl.replaceChildren(anchor);
     } else {
-        locationEl.textContent = location;
+        locationEl.textContent = shortenLocation(location);
     }
 }
 
