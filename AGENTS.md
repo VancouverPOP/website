@@ -154,10 +154,10 @@ When extracting, preserve the same DOM IDs and `data-*` attributes so client-sid
 ### Styling
 
 -   **Primary method**: Tailwind CSS utility classes directly in templates
+-   **Always prefer Tailwind over vanilla CSS.** Use Tailwind utility classes for all styling including positioning, visibility toggling (`hidden`/`flex`), overlays, modals, and dynamic show/hide behavior. Only fall back to scoped `<style>` blocks or vanilla CSS when Tailwind truly cannot express the rule (e.g. complex selectors, animations with many keyframes, or third-party CSS overrides). When dynamically injected HTML needs styling (e.g. `innerHTML`), apply Tailwind classes programmatically in JS rather than using `:global()` scoped styles.
 -   **Theme colors**: Defined in `src/styles/global.css` using Tailwind v4 `@theme` directive (prefixed `vp-*`)
 -   **Custom utilities**: Defined via `@layer utilities` in `global.css`
--   **Scoped styles**: Use sparingly in components, only when Tailwind is insufficient
--   **Blog layout**: Uses `<style is:global>` with `@reference` for blog content typography
+-   **Blog layout**: Uses `<style is:global>` with `@reference` for blog content typography (an acceptable exception since it styles markdown-generated HTML)
 -   Do NOT use inline `style` attributes except for dynamic values
 
 ### Error Handling

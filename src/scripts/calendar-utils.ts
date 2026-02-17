@@ -103,6 +103,35 @@ export function renderLocation(
     }
 }
 
+/**
+ * Renders the full (unshortened) location into a modal element.
+ * URLs become clickable links; plain text locations are displayed in full.
+ */
+export function renderFullLocation(
+    locationWrapper: HTMLElement,
+    locationEl: HTMLElement,
+    location: string
+): void {
+    if (!location) {
+        locationWrapper.classList.add('hidden');
+        return;
+    }
+
+    locationWrapper.classList.remove('hidden');
+
+    if (isUrl(location)) {
+        const anchor = document.createElement('a');
+        anchor.href = location;
+        anchor.target = '_blank';
+        anchor.rel = 'noopener noreferrer';
+        anchor.textContent = getLinkLabel(location);
+        anchor.className = 'underline hover:text-vp-purple transition-colors';
+        locationEl.replaceChildren(anchor);
+    } else {
+        locationEl.textContent = location;
+    }
+}
+
 export function isAllDay(event: CalendarEvent): boolean {
     return !!event.start.date && !event.start.dateTime;
 }
