@@ -124,6 +124,22 @@ const { title, description } = Astro.props;
 </script>
 ```
 
+### Component Size & Refactoring
+
+Keep `.astro` components under **~300 lines**. When a component grows beyond that, refactor by extracting:
+
+-   **Server-side logic** (data fetching, heavy computation) into `src/lib/*.ts` utility modules
+-   **Client-side helper functions** (pure functions, constants) into `src/scripts/*.ts` modules, imported by the component's `<script>` tag
+-   **Template sections** (navigation bars, card templates, repeated markup) into child `.astro` components
+
+Signs a component needs refactoring:
+
+-   Frontmatter contains substantial fetch/transform logic that could be a standalone function
+-   The `<script>` block has many pure utility functions unrelated to DOM orchestration
+-   Large HTML blocks (e.g. `<template>` elements, navigation headers) that are self-contained
+
+When extracting, preserve the same DOM IDs and `data-*` attributes so client-side scripts continue to work across component boundaries. Astro components render at build time, so IDs in child components end up in the final HTML identically.
+
 ### Types
 
 -   Define component props using `interface Props` in the frontmatter
@@ -192,9 +208,11 @@ src/
 │   ├── blog/      # Markdown blog posts (YYYYMMDD-slug.md)
 │   └── config.ts  # Content collection schemas
 ├── layouts/       # Page layout templates
+├── lib/           # Server-side utilities (data fetching, helpers)
 ├── pages/         # File-based routing
 │   ├── blog/      # Blog listing + dynamic [slug] pages
 │   └── rss.xml.js # RSS feed
+├── scripts/       # Client-side helper modules (imported by <script> tags)
 ├── styles/
 │   └── global.css # Tailwind theme + custom utilities
 ├── consts.ts      # Site-wide constants

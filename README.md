@@ -9,10 +9,13 @@ VanPOP website is a [JAMstack](https://jamstack.org/what-is-jamstack/) static we
 ```text
 ├── public/
 ├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
+│   ├── components/
+│   ├── content/
+│   ├── layouts/
+│   ├── lib/
+│   ├── pages/
+│   ├── scripts/
+│   └── styles/
 ```
 
 All website pages are defined in `src/pages/` folder as `.astro` or `.md` files. Each page is exposed as a route based on its file name, e.g. page with filename `about.astro` will be in `/about` route.
@@ -20,6 +23,12 @@ All website pages are defined in `src/pages/` folder as `.astro` or `.md` files.
 The `src/components/` folder contains various reusable components for a website. Example of these components are header, footer, page links, etc. Components are defined in `.astro` files.
 
 The `src/content/` directory contains "collections" of related Markdown and MDX documents. VanPOP blog posts are stored in this folder. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+
+The `src/lib/` directory contains server-side utility modules (e.g. data fetching, helpers) that are used by component frontmatter at build time.
+
+The `src/scripts/` directory contains client-side helper modules (pure functions, constants) that are imported by component `<script>` tags and bundled for the browser.
+
+The `src/styles/` directory contains global stylesheets, including the Tailwind CSS theme and custom utilities.
 
 Any static assets, like images, are placed in the `public/` directory.
 
