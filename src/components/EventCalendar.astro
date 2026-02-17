@@ -197,7 +197,11 @@ const buildYear = now.getFullYear();
         calOverlay.classList.add('flex');
         calModal.classList.remove('hidden');
         calModal.classList.add('flex');
+
+        // Prevent background scroll, compensating for scrollbar width to avoid layout shift
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
         document.body.style.overflow = 'hidden';
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
 
         // Focus the modal for accessibility
         calModal.focus();
@@ -210,6 +214,7 @@ const buildYear = now.getFullYear();
         calModal.classList.add('hidden');
         calModal.classList.remove('flex');
         document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
     }
 
     // Dismiss on overlay click
