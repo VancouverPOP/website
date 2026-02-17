@@ -26,7 +26,7 @@ Before I begin my own analysis, I want to introduce you to some notable non-prof
 - [Neighborhood Evolution (NEVO)](https://www.neighborhoodevolution.com/) is a development consulting group deeply committed to giving local citizens the tools, knowledge, networking, and confidence needed to take action and revitalize their communities.  They also offer their [12 Steps to Town Making training course via the ST Academy](https://academy.strongtowns.org/p/neighborhood-evolution).
 
 <br/>
-<center><div><img class="blog-image" src="/blog-assets/20260213-finding-your-farm/3.jpg" alt="Logo of IncDev and Stong Towns collaboration"><img class="blog-image" src="/blog-assets/20260213-finding-your-farm/7.jpg" alt="Logo of Neighborhood Evolution and Stong Towns collaboration"></div></center>
+<center><div class="max-w-xl"><img class="blog-image" src="/blog-assets/20260213-finding-your-farm/3.jpg" alt="Logo of IncDev and Stong Towns collaboration"><img class="blog-image" src="/blog-assets/20260213-finding-your-farm/7.jpg" alt="Logo of Neighborhood Evolution and Stong Towns collaboration"></div></center>
 <br/>
 
 <br/>
