@@ -1,56 +1,15 @@
 ---
 import { GOOGLE_CALENDAR_ID } from '../consts';
-import type { CalendarEvent } from '../types/calendar';
+import { fetchCalendarEvents } from '../lib/google-calendar';
+import EventCalendarNav from './EventCalendarNav.astro';
+import EventCardTemplate from './EventCardTemplate.astro';
 
-
-const MONTHS_TO_FETCH = 6;
-const GOOGLE_CALENDAR_API_KEY = import.meta.env.CALENDAR_API_KEY;
+const { events, fetchError } = await fetchCalendarEvents(
+    GOOGLE_CALENDAR_ID,
+    import.meta.env.CALENDAR_API_KEY
+);
 
 const now = new Date();
-const timeMin = now.toISOString();
-const futureDate = new Date(now.getFullYear(), now.getMonth() + MONTHS_TO_FETCH + 1, 0);
-const timeMax = futureDate.toISOString();
-
-let events: CalendarEvent[] = [];
-let fetchError = false;
-
-try {
-    const params = new URLSearchParams({
-        key: GOOGLE_CALENDAR_API_KEY,
-        timeMin,
-        timeMax,
-        singleEvents: 'true',
-        orderBy: 'startTime',
-        maxResults: '250',
-    });
-
-    const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(GOOGLE_CALENDAR_ID)}/events?${params}`;
-    const response = await fetch(url);
-
-    if (response.ok) {
-        const data = await response.json();
-        events = data.items.map((item: CalendarEvent) => ({
-            summary: item.summary,
-            description: item.description,
-            location: item.location,
-            start: {
-                date: item.start.date,
-                dateTime: item.start.dateTime,
-            },
-            end: {
-                date: item.end.date,
-                dateTime: item.end.dateTime,
-            },
-        }));
-    } else {
-        console.error(`Google Calendar API error: ${response.status} ${response.statusText}`);
-        fetchError = true;
-    }
-} catch (err) {
-    console.error('Failed to fetch calendar events at build time:', err);
-    fetchError = true;
-}
-
 const buildMonth = now.getMonth();
 const buildYear = now.getFullYear();
 ---
@@ -70,42 +29,10 @@ const buildYear = now.getFullYear();
     />
 
     <!-- Month Navigation Header -->
-    <div class="flex items-center justify-between mb-6">
-        <button
-            id="cal-prev"
-            type="button"
-            class="flex items-center gap-1 border border-vp-purple text-vp-purple rounded-xl px-4 py-2 font-raleway font-bold text-sm transition-all duration-300 hover:bg-vp-purple hover:text-white hover:-translate-y-0.5 hover:shadow-sm"
-            aria-label="Previous month"
-        >
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
-                ></path>
-            </svg>
-            Prev
-        </button>
-        <h3
-            id="cal-month-label"
-            class="font-raleway font-bold text-xl md:text-2xl text-vp-purple m-0"
-        >
-            Loading...
-        </h3>
-        <button
-            id="cal-next"
-            type="button"
-            class="flex items-center gap-1 border border-vp-purple text-vp-purple rounded-xl px-4 py-2 font-raleway font-bold text-sm transition-all duration-300 hover:bg-vp-purple hover:text-white hover:-translate-y-0.5 hover:shadow-sm"
-            aria-label="Next month"
-        >
-            Next
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
-                ></path>
-            </svg>
-        </button>
-    </div>
+    <EventCalendarNav />
 
     {
         fetchError ? (
-            <!-- Build-time error state rendered server-side -->
             <div class="py-12 text-center">
                 <svg
                     class="w-12 h-12 mx-auto text-vp-purple/40 mb-4"
@@ -120,7 +47,6 @@ const buildYear = now.getFullYear();
             </div>
         ) : (
             <>
-                <!-- Empty State (shown/hidden by client JS) -->
                 <div
                     id="cal-empty"
                     class="hidden py-12 text-center"
@@ -137,7 +63,6 @@ const buildYear = now.getFullYear();
                     </p>
                 </div>
 
-                <!-- Events List Container -->
                 <div
                     id="cal-events"
                     class="flex flex-col gap-4"
@@ -147,159 +72,22 @@ const buildYear = now.getFullYear();
     }
 
     <!-- Event card template -->
-    <template id="cal-event-template">
-        <div class="event-card flex gap-4 bg-vp-light-pink rounded-xl p-4 md:p-5 shadow-sm transition-all duration-300 hover:shadow-md">
-            <div class="event-date-badge flex flex-col items-center justify-center min-w-16 md:min-w-20 rounded-lg bg-vp-dark-purple text-white py-3 px-2">
-                <span data-field="month-short" class="font-raleway text-xs font-bold tracking-wider opacity-80"></span>
-                <span data-field="day-num" class="font-raleway text-2xl md:text-3xl font-bold leading-none"></span>
-                <span data-field="day-name" class="font-raleway text-xs opacity-80"></span>
-            </div>
-            <div class="flex-1 min-w-0">
-                <h4 data-field="title" class="font-raleway font-bold text-base md:text-lg text-vp-black m-0 mb-1"></h4>
-                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1">
-                    <span class="font-freight text-sm text-vp-purple flex items-center gap-1">
-                        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"></path>
-                        </svg>
-                        <span data-field="time"></span>
-                    </span>
-                    <span data-field="location-wrapper" class="font-freight text-sm text-vp-black/60 flex items-center gap-1">
-                        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path>
-                        </svg>
-                        <span data-field="location"></span>
-                    </span>
-                </div>
-                <p data-field="description" class="hidden md:block font-raleway text-sm text-vp-black/70 m-0 leading-relaxed"></p>
-            </div>
-        </div>
-    </template>
+    <EventCardTemplate />
 </div>
 
 <script>
     import type { CalendarEvent } from '../types/calendar';
-
-    const MONTH_NAMES = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-    ];
-
-    const DAY_NAMES = [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-    ];
-
-    function formatTime(dateStr: string): string {
-        const date = new Date(dateStr);
-        return date.toLocaleTimeString('en-US', {
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true,
-        });
-    }
-
-    function formatDayDate(dateStr: string): {
-        dayName: string;
-        dayNum: number;
-        monthShort: string;
-    } {
-        const date = new Date(dateStr);
-        return {
-            dayName: DAY_NAMES[date.getDay()],
-            dayNum: date.getDate(),
-            monthShort: MONTH_NAMES[date.getMonth()]
-                .slice(0, 3)
-                .toUpperCase(),
-        };
-    }
-
-    function isUrl(str: string): boolean {
-        try {
-            const url = new URL(str);
-            return url.protocol === 'http:' || url.protocol === 'https:';
-        } catch {
-            return false;
-        }
-    }
-
-    function getLinkLabel(url: string): string {
-        const hostname = new URL(url).hostname;
-        if (hostname === 'zoom.us' || hostname.endsWith('.zoom.us')) {
-            return 'Online (Zoom Meeting)';
-        }
-        return 'Link';
-    }
-
-    function renderLocation(
-        locationWrapper: HTMLElement,
-        locationEl: HTMLElement,
-        location: string
-    ): void {
-        if (!location) {
-            locationWrapper.classList.add('hidden');
-            return;
-        }
-
-        if (isUrl(location)) {
-            const anchor = document.createElement('a');
-            anchor.href = location;
-            anchor.target = '_blank';
-            anchor.rel = 'noopener noreferrer';
-            anchor.textContent = getLinkLabel(location);
-            anchor.className =
-                'underline hover:text-vp-purple transition-colors';
-            locationEl.replaceChildren(anchor);
-        } else {
-            locationEl.textContent = location;
-        }
-    }
-
-    function isAllDay(event: CalendarEvent): boolean {
-        return !!event.start.date && !event.start.dateTime;
-    }
-
-    function getEventStartDate(event: CalendarEvent): string {
-        return event.start.dateTime || event.start.date || '';
-    }
-
-    function getEventEndDate(event: CalendarEvent): string {
-        return event.end.dateTime || event.end.date || '';
-    }
-
-    function getEventMonth(event: CalendarEvent): {
-        year: number;
-        month: number;
-    } {
-        const dateStr = getEventStartDate(event);
-        const date = new Date(dateStr);
-        return { year: date.getFullYear(), month: date.getMonth() };
-    }
-
-    function filterEventsByMonth(
-        allEvents: CalendarEvent[],
-        year: number,
-        month: number
-    ): CalendarEvent[] {
-        return allEvents.filter((event) => {
-            const { year: ey, month: em } = getEventMonth(event);
-            return ey === year && em === month;
-        });
-    }
+    import {
+        MONTH_NAMES,
+        formatTime,
+        formatDayDate,
+        isAllDay,
+        getEventStartDate,
+        getEventEndDate,
+        getEventMonth,
+        filterEventsByMonth,
+        renderLocation,
+    } from '../scripts/calendar-utils';
 
     function renderEvent(event: CalendarEvent): HTMLElement {
         const template = document.getElementById(
