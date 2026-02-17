@@ -3,6 +3,7 @@ import { GOOGLE_CALENDAR_ID } from '../consts';
 import { fetchCalendarEvents } from '../lib/google-calendar';
 import EventCalendarNav from './EventCalendarNav.astro';
 import EventCardTemplate from './EventCardTemplate.astro';
+import EventDetailModal from './EventDetailModal.astro';
 
 const { events, fetchError } = await fetchCalendarEvents(
     GOOGLE_CALENDAR_ID,
@@ -20,7 +21,6 @@ const buildYear = now.getFullYear();
     data-build-month={buildMonth}
     data-build-year={buildYear}
 >
-    <!-- Pre-fetched event data embedded at build time -->
     <script
         is:inline
         id="cal-event-data"
@@ -28,7 +28,6 @@ const buildYear = now.getFullYear();
         set:html={JSON.stringify(events)}
     />
 
-    <!-- Month Navigation Header -->
     <EventCalendarNav />
 
     {
@@ -70,51 +69,15 @@ const buildYear = now.getFullYear();
             </>
         )
     }
-
-    <!-- Event card template -->
     <EventCardTemplate />
 </div>
 
-<!-- Event detail modal (outside #event-calendar to avoid layout issues) -->
-<div id="cal-overlay" class="hidden fixed inset-0 w-screen h-screen bg-black/50 z-51"></div>
-<div id="cal-modal" class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-52" role="dialog" aria-modal="true" aria-label="Event details">
-    <div class="bg-vp-light-pink rounded-xl p-6 md:p-8 shadow-lg w-[90vw] max-w-lg max-h-[85vh] overflow-y-auto">
-        <div class="flex gap-4 mb-4">
-            <div class="event-date-badge flex flex-col items-center justify-center min-w-16 md:min-w-20 rounded-lg bg-vp-dark-purple text-white py-3 px-2">
-                <span id="modal-month-short" class="font-raleway text-xs font-bold tracking-wider opacity-80"></span>
-                <span id="modal-day-num" class="font-raleway text-2xl md:text-3xl font-bold leading-none"></span>
-                <span id="modal-day-name" class="font-raleway text-xs opacity-80"></span>
-            </div>
-            <div class="flex-1 min-w-0 flex flex-col justify-center">
-                <h3 id="modal-title" class="font-raleway font-bold text-lg md:text-xl text-vp-black m-0"></h3>
-            </div>
-        </div>
-        <div class="flex flex-col gap-3">
-            <div class="flex items-center gap-2">
-                <svg class="w-4 h-4 shrink-0 text-vp-purple" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"></path>
-                </svg>
-                <span id="modal-time" class="font-freight text-sm md:text-base text-vp-purple"></span>
-            </div>
-            <div id="modal-location-wrapper" class="flex items-start gap-2">
-                <svg class="w-4 h-4 shrink-0 text-vp-black/60 mt-0.5" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path>
-                </svg>
-                <span id="modal-location" class="font-freight text-sm md:text-base text-vp-black/60"></span>
-            </div>
-            <div id="modal-description-wrapper">
-                <hr class="border-vp-purple/20 my-2" />
-                <div id="modal-description" class="font-raleway text-sm md:text-base text-vp-black/70 leading-relaxed"></div>
-            </div>
-        </div>
-    </div>
-</div>
+<EventDetailModal />
 
 <script>
     import type { CalendarEvent } from '../types/calendar';
     import {
         MONTH_NAMES,
-        DAY_NAMES,
         formatTime,
         formatDayDate,
         isAllDay,
@@ -123,107 +86,8 @@ const buildYear = now.getFullYear();
         getEventMonth,
         filterEventsByMonth,
         renderLocation,
-        renderFullLocation,
     } from '../scripts/calendar-utils';
-
-    // --- Modal elements ---
-    const calOverlay = document.getElementById('cal-overlay');
-    const calModal = document.getElementById('cal-modal');
-
-    function openEventModal(event: CalendarEvent) {
-        if (!calModal || !calOverlay) return;
-
-        const startStr = getEventStartDate(event);
-        const endStr = getEventEndDate(event);
-        const { dayName, dayNum, monthShort } = formatDayDate(startStr);
-
-        // Populate date badge
-        const monthShortEl = document.getElementById('modal-month-short');
-        const dayNumEl = document.getElementById('modal-day-num');
-        const dayNameEl = document.getElementById('modal-day-name');
-        if (monthShortEl) monthShortEl.textContent = monthShort;
-        if (dayNumEl) dayNumEl.textContent = String(dayNum);
-        if (dayNameEl) dayNameEl.textContent = dayName.slice(0, 3);
-
-        // Title
-        const titleEl = document.getElementById('modal-title');
-        if (titleEl) titleEl.textContent = event.summary || 'Untitled Event';
-
-        // Time -- include full date for context
-        const timeEl = document.getElementById('modal-time');
-        if (timeEl) {
-            const startDate = new Date(startStr);
-            const dateLabel = `${DAY_NAMES[startDate.getDay()]}, ${MONTH_NAMES[startDate.getMonth()]} ${startDate.getDate()}, ${startDate.getFullYear()}`;
-            if (isAllDay(event)) {
-                timeEl.textContent = `${dateLabel} \u2022 All Day`;
-            } else {
-                timeEl.textContent = `${dateLabel} \u2022 ${formatTime(startStr)} - ${formatTime(endStr)}`;
-            }
-        }
-
-        // Location (full, not shortened)
-        renderFullLocation(
-            document.getElementById('modal-location-wrapper') as HTMLElement,
-            document.getElementById('modal-location') as HTMLElement,
-            event.location || ''
-        );
-
-        // Description (rendered as HTML)
-        const descWrapper = document.getElementById(
-            'modal-description-wrapper'
-        );
-        const descEl = document.getElementById('modal-description');
-        const rawDescription = event.description || '';
-        if (descEl && descWrapper) {
-            if (rawDescription.trim()) {
-                descWrapper.classList.remove('hidden');
-                descEl.innerHTML = rawDescription;
-
-                // Style dynamically injected links from calendar description
-                descEl.querySelectorAll('a').forEach((a) => {
-                    a.classList.add(
-                        'text-vp-purple',
-                        'underline',
-                        'hover:opacity-80'
-                    );
-                });
-            } else {
-                descWrapper.classList.add('hidden');
-            }
-        }
-
-        // Show modal and overlay
-        calOverlay.classList.remove('hidden');
-        calOverlay.classList.add('flex');
-        calModal.classList.remove('hidden');
-        calModal.classList.add('flex');
-
-        // Prevent background scroll, compensating for scrollbar width to avoid layout shift
-        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-        document.body.style.overflow = 'hidden';
-        document.body.style.paddingRight = `${scrollbarWidth}px`;
-
-        // Focus the modal for accessibility
-        calModal.focus();
-    }
-
-    function closeEventModal() {
-        if (!calModal || !calOverlay) return;
-        calOverlay.classList.add('hidden');
-        calOverlay.classList.remove('flex');
-        calModal.classList.add('hidden');
-        calModal.classList.remove('flex');
-        document.body.style.overflow = '';
-        document.body.style.paddingRight = '';
-    }
-
-    // Dismiss on overlay click
-    calOverlay?.addEventListener('click', closeEventModal);
-
-    // Dismiss on Escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeEventModal();
-    });
+    import { openEventModal } from '../scripts/event-modal';
 
     // --- Calendar card rendering ---
 
