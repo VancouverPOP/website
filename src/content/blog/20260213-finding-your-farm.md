@@ -1,6 +1,7 @@
 ---
 title: "Finding Your Farm: How to get started in small-scale development"
 pubDate: 2026-02-12T16:00:00.000Z
+updatedDate: 2026-02-17T16:00:00.000Z
 heroImage: /blog-assets/20260213-finding-your-farm/1.png
 author: Kip Santos
 ---
@@ -25,7 +26,7 @@ Before I begin my own analysis, I want to introduce you to some notable non-prof
 - [Neighborhood Evolution (NEVO)](https://www.neighborhoodevolution.com/) is a development consulting group deeply committed to giving local citizens the tools, knowledge, networking, and confidence needed to take action and revitalize their communities.  They also offer their [12 Steps to Town Making training course via the ST Academy](https://academy.strongtowns.org/p/neighborhood-evolution).
 
 <br/>
-<center><img class="blog-image" src="/blog-assets/20260213-finding-your-farm/3.jpg" alt="Logo of IncDev and Stong Towns collaboration"></center>
+<center><div class="flex flex-row"><img class="blog-image" src="/blog-assets/20260213-finding-your-farm/3.jpg" alt="Logo of IncDev and Stong Towns collaboration"><img class="blog-image" src="/blog-assets/20260213-finding-your-farm/7.jpg" alt="Logo of Neighborhood Evolution and Stong Towns collaboration"></div></center>
 <br/>
 
 <br/>
