@@ -51,6 +51,11 @@ Configured in `.prettierrc.mjs`:
     ```ts
     import type { CollectionEntry } from 'astro:content';
     ```
+-   **Avoid `as` type assertions.** They bypass the type checker and can hide bugs. Instead:
+    -   Use type guards (`if ('key' in obj)`, `typeof x === 'string'`, etc.)
+    -   Use `satisfies` when you want to validate a value matches a type without widening
+    -   Narrow types with conditional checks rather than casting
+    -   If a cast is truly unavoidable (e.g. working around a third-party library's incomplete types), add a comment explaining why
 
 ### Imports
 

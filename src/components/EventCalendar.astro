@@ -301,11 +301,12 @@ const buildYear = now.getFullYear();
             locationWrapper.classList.add('hidden');
         }
 
-        // Description (hide when absent; strip HTML tags and truncate)
         const descEl = card.querySelector(
             '[data-field="description"]'
         ) as HTMLElement;
         const rawDescription = event.description || '';
+
+        // Remove HTML tags and trim whitespace from description
         const plainDescription = rawDescription
             .replace(/<[^>]*>/g, '')
             .trim();
