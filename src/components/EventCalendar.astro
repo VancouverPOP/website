@@ -1,17 +1,10 @@
 ---
 import { GOOGLE_CALENDAR_ID } from '../consts';
+import type { CalendarEvent } from '../types/calendar';
 
 
 const MONTHS_TO_FETCH = 6;
 const GOOGLE_CALENDAR_API_KEY = import.meta.env.CALENDAR_API_KEY;
-
-interface CalendarEvent {
-    summary?: string;
-    description?: string;
-    location?: string;
-    start: { date?: string; dateTime?: string };
-    end: { date?: string; dateTime?: string };
-}
 
 const now = new Date();
 const timeMin = now.toISOString();
@@ -155,13 +148,7 @@ const buildYear = now.getFullYear();
 </div>
 
 <script>
-    interface CalendarEvent {
-        summary?: string;
-        description?: string;
-        location?: string;
-        start: { date?: string; dateTime?: string };
-        end: { date?: string; dateTime?: string };
-    }
+    import type { CalendarEvent } from '../types/calendar';
 
     const MONTH_NAMES = [
         'January',
@@ -348,11 +335,11 @@ const buildYear = now.getFullYear();
 
         // Use build-time month as the baseline (data-build-month, data-build-year)
         const buildMonth = parseInt(
-            container.dataset.buildMonth || '0',
+            container.dataset.buildMonth || String(new Date().getMonth()),
             10
         );
         const buildYear = parseInt(
-            container.dataset.buildYear || '2026',
+            container.dataset.buildYear || String(new Date().getFullYear()),
             10
         );
 
@@ -431,10 +418,9 @@ const buildYear = now.getFullYear();
         updateMonth(currentYear, currentMonth);
     }
 
-    // Run on initial load and on Astro page transitions
-    document.addEventListener('astro:page-load', initCalendar);
-
-    // Fallback: if no Astro transitions, run on DOMContentLoaded
+    // Run initialization after DOM is ready
+    // NOTE: this uses DOMContentLoaded instead of astro:page-load,
+    // because we don't use View Transitions
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initCalendar);
     } else {
