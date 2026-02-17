@@ -25,8 +25,8 @@ This is the primary code validation tool. It runs TypeScript checking for both `
 
 ### Linting
 
--   **No ESLint** is configured. Do not add ESLint rules or dependencies.
--   **Markdown linting** is handled in CI via `markdownlint-cli2`. Config in `.markdownlint.json` disables line length limits (MD013), inline HTML (MD033), and duplicate headings (MD024).
+- **No ESLint** is configured. Do not add ESLint rules or dependencies.
+- **Markdown linting** is handled in CI via `markdownlint-cli2`. Config in `.markdownlint.json` disables line length limits (MD013), inline HTML (MD033), and duplicate headings (MD024).
 
 ### Testing
 
@@ -38,24 +38,26 @@ There is **no test framework** configured (no vitest, jest, playwright, etc.). T
 
 Configured in `.prettierrc.mjs`:
 
--   **Indentation**: 4 spaces (also in `.editorconfig`)
--   **Semicolons**: Always (`semi: true`)
--   **Quotes**: Single quotes (`singleQuote: true`)
--   **Trailing commas**: ES5 style (`trailingComma: 'es5'`)
+- **Indentation**: 4 spaces (also in `.editorconfig`)
+- **Semicolons**: Always (`semi: true`)
+- **Quotes**: Single quotes (`singleQuote: true`)
+- **Trailing commas**: ES5 style (`trailingComma: 'es5'`)
 
 ### TypeScript
 
--   Extends `astro/tsconfigs/strict` with `strictNullChecks: true`
--   No path aliases -- use relative imports (`../components/Foo.astro`)
--   Use `import type` for type-only imports:
-    ```ts
-    import type { CollectionEntry } from 'astro:content';
-    ```
--   **Avoid `as` type assertions.** They bypass the type checker and can hide bugs. Instead:
-    -   Use type guards (`if ('key' in obj)`, `typeof x === 'string'`, etc.)
-    -   Use `satisfies` when you want to validate a value matches a type without widening
-    -   Narrow types with conditional checks rather than casting
-    -   If a cast is truly unavoidable (e.g. working around a third-party library's incomplete types), add a comment explaining why
+- Extends `astro/tsconfigs/strict` with `strictNullChecks: true`
+- No path aliases -- use relative imports (`../components/Foo.astro`)
+- Use `import type` for type-only imports:
+
+  ```ts
+  import type { CollectionEntry } from 'astro:content';
+  ```
+
+- **Avoid `as` type assertions.** They bypass the type checker and can hide bugs. Instead:
+  - Use type guards (`if ('key' in obj)`, `typeof x === 'string'`, etc.)
+  - Use `satisfies` when you want to validate a value matches a type without widening
+  - Narrow types with conditional checks rather than casting
+  - If a cast is truly unavoidable (e.g. working around a third-party library's incomplete types), add a comment explaining why
 
 ### Imports
 
@@ -113,12 +115,7 @@ const { title, description } = Astro.props;
     <slot />
 </div>
 
-<!-- 5. Scoped styles (only when Tailwind classes are insufficient) -->
-<style>
-    /* scoped CSS */
-</style>
-
-<!-- 6. Client-side script (only when absolutely needed) -->
+<!-- 5. Client-side script (only when absolutely needed) -->
 <script>
     // minimal client JS
 </script>
@@ -126,47 +123,60 @@ const { title, description } = Astro.props;
 
 ### Component Size & Refactoring
 
-Keep `.astro` components under **~300 lines**. When a component grows beyond that, refactor by extracting:
+Keep `.astro` components under **~400 lines**. When a component grows beyond that, refactor by extracting:
 
--   **Server-side logic** (data fetching, heavy computation) into `src/lib/*.ts` utility modules
--   **Client-side helper functions** (pure functions, constants) into `src/scripts/*.ts` modules, imported by the component's `<script>` tag
--   **Template sections** (navigation bars, card templates, repeated markup) into child `.astro` components
+- **Server-side logic** (data fetching, heavy computation) into `src/lib/*.ts` utility modules
+- **Client-side helper functions** (pure functions, constants) into `src/scripts/*.ts` modules, imported by the component's `<script>` tag
+- **Template sections** (navigation bars, card templates, repeated markup) into child `.astro` components
 
 Signs a component needs refactoring:
 
--   Frontmatter contains substantial fetch/transform logic that could be a standalone function
--   The `<script>` block has many pure utility functions unrelated to DOM orchestration
--   Large HTML blocks (e.g. `<template>` elements, navigation headers) that are self-contained
+- Frontmatter contains substantial fetch/transform logic that could be a standalone function
+- The `<script>` block has many pure utility functions unrelated to DOM orchestration
+- Large HTML blocks (e.g. `<template>` elements, navigation headers) that are self-contained
 
 When extracting, preserve the same DOM IDs and `data-*` attributes so client-side scripts continue to work across component boundaries. Astro components render at build time, so IDs in child components end up in the final HTML identically.
 
 ### Types
 
--   Define component props using `interface Props` in the frontmatter
--   Use Zod schemas for content collection validation (see `src/content/config.ts`)
--   Use literal union types for constrained props:
-    ```ts
-    interface Props {
-        target?: '_blank' | '_parent' | '_top' | '_self';
-    }
-    ```
+- Define component props using `interface Props` in the frontmatter
+- Use Zod schemas for content collection validation (see `src/content/config.ts`)
+- Use literal union types for constrained props:
+
+  ```ts
+  interface Props {
+    target?: '_blank' | '_parent' | '_top' | '_self';
+  }
+  ```
 
 ### Styling
 
--   **Primary method**: Tailwind CSS utility classes directly in templates
--   **Always prefer Tailwind over vanilla CSS.** Use Tailwind utility classes for all styling including positioning, visibility toggling (`hidden`/`flex`), overlays, modals, and dynamic show/hide behavior. Only fall back to scoped `<style>` blocks or vanilla CSS when Tailwind truly cannot express the rule (e.g. complex selectors, animations with many keyframes, or third-party CSS overrides). When dynamically injected HTML needs styling (e.g. `innerHTML`), apply Tailwind classes programmatically in JS rather than using `:global()` scoped styles.
--   **Theme colors**: Defined in `src/styles/global.css` using Tailwind v4 `@theme` directive (prefixed `vp-*`)
--   **Custom utilities**: Defined via `@layer utilities` in `global.css`
--   **Blog layout**: Uses `<style is:global>` with `@reference` for blog content typography (an acceptable exception since it styles markdown-generated HTML)
--   Do NOT use inline `style` attributes except for dynamic values
+- **Primary method**: Tailwind CSS utility classes directly in templates
+- **Always prefer Tailwind over vanilla CSS.** Use Tailwind utility classes for all styling including positioning, visibility toggling (`hidden`/`flex`), overlays, modals, and dynamic show/hide behavior. Only fall back to scoped `<style>` blocks or vanilla CSS when Tailwind truly cannot express the rule (e.g. complex selectors, animations with many keyframes, or third-party CSS overrides). When dynamically injected HTML needs styling (e.g. `innerHTML`), apply Tailwind classes programmatically in JS rather than using `:global()` scoped styles.
+- **Theme colors**: Defined in `src/styles/global.css` using Tailwind v4 `@theme` directive (prefixed `vp-*`)
+- **Custom utilities**: Defined via `@layer utilities` in `global.css`
+- **Blog layout**: Uses `<style is:global>` with `@reference` for blog content typography (an acceptable exception since it styles markdown-generated HTML)
+- Do NOT use inline `style` attributes except for dynamic values
+
+### Modals / Overlays
+
+The project uses a consistent pattern for modal dialogs:
+
+- **Visibility**: Elements start with `hidden` class; toggled by swapping `hidden`/`flex` in JS (no `.active` class pattern)
+- **Overlay**: `hidden fixed inset-0 w-screen h-screen bg-black/50 z-51`
+- **Modal**: `hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-52`
+- **Dismiss**: Overlay click + Escape key; no close button unless explicitly needed
+- **Scroll lock**: Set `document.body.style.overflow = 'hidden'` when opening, and compensate for the scrollbar disappearing by measuring `window.innerWidth - document.documentElement.clientWidth` and applying that as `document.body.style.paddingRight`. Clear both on close.
+
+See `EventDetailModal.astro` + `src/scripts/event-modal.ts` and `SubscribeButton.astro` for reference implementations.
 
 ### Error Handling
 
 This is a static site with no server-side runtime. Minimal error handling is expected:
 
--   No try/catch blocks needed for static generation
--   Form validation uses HTML `required` attributes and external Brevo form handling
--   No custom error pages exist
+- No try/catch blocks needed for static generation
+- Form validation uses HTML `required` attributes and external Brevo form handling
+- No custom error pages exist
 
 ## Content Conventions
 
@@ -191,17 +201,17 @@ author: Author Name
 
 ```html
 <center>
-    <img
-        class="blog-image"
-        src="/blog-assets/YYYYMMDD-slug/image.jpg"
-        alt="Description"
-    />
+  <img
+    class="blog-image"
+    src="/blog-assets/YYYYMMDD-slug/image.jpg"
+    alt="Description"
+  />
 </center>
 ```
 
 ## Project Architecture
 
-```
+```text
 src/
 ├── components/    # Reusable Astro components (PascalCase)
 ├── content/
@@ -212,9 +222,10 @@ src/
 ├── pages/         # File-based routing
 │   ├── blog/      # Blog listing + dynamic [slug] pages
 │   └── rss.xml.js # RSS feed
-├── scripts/       # Client-side helper modules (imported by <script> tags)
+├── scripts/       # Client-side modules (DOM helpers, shared logic like modals)
 ├── styles/
 │   └── global.css # Tailwind theme + custom utilities
+├── types/         # Shared TypeScript interfaces
 ├── consts.ts      # Site-wide constants
 └── env.d.ts       # Astro environment types
 public/            # Static assets (images, fonts, favicon)
@@ -222,15 +233,31 @@ public/            # Static assets (images, fonts, favicon)
 
 ## CI/CD
 
--   **PR checks**: Build verification (`pnpm astro build`) and markdown linting run on PRs to `main`
--   **Deployment**: Automatic from `main` branch via Cloudflare Pages
--   **Node version in CI**: 20
--   **pnpm version in CI**: 8
+- **PR checks**: Build verification (`pnpm astro build`) and markdown linting run on PRs to `main`
+- **Deployment**: Automatic from `main` branch via Cloudflare Pages
+- **Node version in CI**: 20
+- **pnpm version in CI**: 8
 
 ## Key External Services
 
--   **Brevo**: Email newsletter subscription (forms + scripts)
--   **Google reCAPTCHA v3**: Form spam protection
--   **Adobe Fonts (Typekit)**: synthese, freight-text-pro fonts
--   **Google Calendar API**: Events data fetched at build time via `EventCalendar.astro`. Calendar ID is in `src/consts.ts`. API key is read from the `CALENDAR_API_KEY` environment variable (set in Cloudflare Pages; locally via `.env`). Events are static after build -- redeploy to refresh.
--   **Cloudflare Pages**: Hosting and deployment
+- **Brevo**: Email newsletter subscription (forms + scripts)
+- **Google reCAPTCHA v3**: Form spam protection
+- **Adobe Fonts (Typekit)**: synthese, freight-text-pro fonts
+- **Google Calendar API**: Events data fetched at build time via `EventCalendar.astro`. Calendar ID is in `src/consts.ts`. API key is read from the `CALENDAR_API_KEY` environment variable (set in Cloudflare Pages; locally via `.env`). Events are static after build -- redeploy to refresh.
+- **Cloudflare Pages**: Hosting and deployment
+
+## Editing This File
+
+Changes to `AGENTS.md` **must** pass `markdownlint-cli2` (the same linter that runs in CI for all Markdown files). Key rules to follow:
+
+- Use `-` followed by a single space for unordered list markers, not `-` followed by 3 spaces
+- Indent nested list items by 2 spaces
+- Surround fenced code blocks with blank lines, including when inside list items
+- Always specify a language on fenced code blocks (e.g. ` ```ts `, ` ```yaml `, ` ```text `)
+- See `.markdownlint.json` for disabled rules (MD013, MD033, MD024, hard tabs)
+
+Run the linter locally before committing:
+
+```sh
+pnpm markdownlint-cli2 AGENTS.md
+```

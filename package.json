@@ -22,6 +22,7 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
+    "markdownlint-cli2": "^0.21.0",
     "prettier": "^3.2.5"
   }
 }
