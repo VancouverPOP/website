@@ -145,6 +145,35 @@ const buildYear = now.getFullYear();
             </>
         )
     }
+
+    <!-- Event card template -->
+    <template id="cal-event-template">
+        <div class="event-card flex gap-4 bg-vp-light-pink rounded-xl p-4 md:p-5 shadow-sm transition-all duration-300 hover:shadow-md">
+            <div class="event-date-badge flex flex-col items-center justify-center min-w-16 md:min-w-20 rounded-lg bg-vp-dark-purple text-white py-3 px-2">
+                <span data-field="month-short" class="font-raleway text-xs font-bold tracking-wider opacity-80"></span>
+                <span data-field="day-num" class="font-raleway text-2xl md:text-3xl font-bold leading-none"></span>
+                <span data-field="day-name" class="font-raleway text-xs opacity-80"></span>
+            </div>
+            <div class="flex-1 min-w-0">
+                <h4 data-field="title" class="font-raleway font-bold text-base md:text-lg text-vp-black m-0 mb-1"></h4>
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1">
+                    <span class="font-freight text-sm text-vp-purple flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"></path>
+                        </svg>
+                        <span data-field="time"></span>
+                    </span>
+                    <span data-field="location-wrapper" class="font-freight text-sm text-vp-black/60 flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path>
+                        </svg>
+                        <span data-field="location"></span>
+                    </span>
+                </div>
+                <p data-field="description" class="font-raleway text-sm text-vp-black/70 m-0 leading-relaxed"></p>
+            </div>
+        </div>
+    </template>
 </div>
 
 <script>
@@ -163,7 +192,7 @@ const buildYear = now.getFullYear();
         'October',
         'November',
         'December',
-    ] as const;
+    ];
 
     const DAY_NAMES = [
         'Sunday',
@@ -173,7 +202,7 @@ const buildYear = now.getFullYear();
         'Thursday',
         'Friday',
         'Saturday',
-    ] as const;
+    ];
 
     function formatTime(dateStr: string): string {
         const date = new Date(dateStr);
@@ -211,12 +240,6 @@ const buildYear = now.getFullYear();
         return event.end.dateTime || event.end.date || '';
     }
 
-    function escapeHtml(text: string): string {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-
     function getEventMonth(event: CalendarEvent): {
         year: number;
         month: number;
@@ -237,60 +260,65 @@ const buildYear = now.getFullYear();
         });
     }
 
-    function renderEvent(event: CalendarEvent): string {
-        const title = escapeHtml(event.summary || 'Untitled Event');
-        const location = escapeHtml(event.location || '');
-        const description = event.description || '';
-        const allDay = isAllDay(event);
+    function renderEvent(event: CalendarEvent): HTMLElement {
+        const template = document.getElementById(
+            'cal-event-template'
+        ) as HTMLTemplateElement;
+        const card = template.content
+            .firstElementChild!.cloneNode(true) as HTMLElement;
+
         const startStr = getEventStartDate(event);
         const endStr = getEventEndDate(event);
         const { dayName, dayNum, monthShort } = formatDayDate(startStr);
 
-        let timeDisplay = 'All Day';
-        if (!allDay) {
-            timeDisplay = `${formatTime(startStr)} - ${formatTime(endStr)}`;
+        // Date badge
+        card.querySelector('[data-field="month-short"]')!.textContent =
+            monthShort;
+        card.querySelector('[data-field="day-num"]')!.textContent =
+            String(dayNum);
+        card.querySelector('[data-field="day-name"]')!.textContent =
+            dayName.slice(0, 3);
+
+        // Title
+        card.querySelector('[data-field="title"]')!.textContent =
+            event.summary || 'Untitled Event';
+
+        // Time
+        const timeDisplay = isAllDay(event)
+            ? 'All Day'
+            : `${formatTime(startStr)} - ${formatTime(endStr)}`;
+        card.querySelector('[data-field="time"]')!.textContent = timeDisplay;
+
+        // Location (hide wrapper when absent)
+        const locationWrapper = card.querySelector(
+            '[data-field="location-wrapper"]'
+        ) as HTMLElement;
+        const location = event.location || '';
+        if (location) {
+            card.querySelector('[data-field="location"]')!.textContent =
+                location;
+        } else {
+            locationWrapper.classList.add('hidden');
         }
 
-        // Strip HTML tags from description for plain text display, then escape
-        const plainDescription = description.replace(/<[^>]*>/g, '').trim();
-        const truncatedDesc = escapeHtml(
-            plainDescription.length > 200
-                ? plainDescription.slice(0, 200) + '...'
-                : plainDescription
-        );
+        // Description (hide when absent; strip HTML tags and truncate)
+        const descEl = card.querySelector(
+            '[data-field="description"]'
+        ) as HTMLElement;
+        const rawDescription = event.description || '';
+        const plainDescription = rawDescription
+            .replace(/<[^>]*>/g, '')
+            .trim();
+        if (plainDescription) {
+            descEl.textContent =
+                plainDescription.length > 200
+                    ? plainDescription.slice(0, 200) + '...'
+                    : plainDescription;
+        } else {
+            descEl.classList.add('hidden');
+        }
 
-        return `
-            <div class="event-card flex gap-4 bg-vp-light-pink rounded-xl p-4 md:p-5 shadow-sm transition-all duration-300 hover:shadow-md">
-                <div class="event-date-badge flex flex-col items-center justify-center min-w-16 md:min-w-20 rounded-lg bg-vp-dark-purple text-white py-3 px-2">
-                    <span class="font-raleway text-xs font-bold tracking-wider opacity-80">${monthShort}</span>
-                    <span class="font-raleway text-2xl md:text-3xl font-bold leading-none">${dayNum}</span>
-                    <span class="font-raleway text-xs opacity-80">${dayName.slice(0, 3)}</span>
-                </div>
-                <div class="flex-1 min-w-0">
-                    <h4 class="font-raleway font-bold text-base md:text-lg text-vp-black m-0 mb-1">${title}</h4>
-                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1">
-                        <span class="font-freight text-sm text-vp-purple flex items-center gap-1">
-                            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"></path>
-                            </svg>
-                            ${timeDisplay}
-                        </span>
-                        ${
-                            location
-                                ? `
-                        <span class="font-freight text-sm text-vp-black/60 flex items-center gap-1">
-                            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path>
-                            </svg>
-                            ${location}
-                        </span>`
-                                : ''
-                        }
-                    </div>
-                    ${truncatedDesc ? `<p class="font-raleway text-sm text-vp-black/70 m-0 leading-relaxed">${truncatedDesc}</p>` : ''}
-                </div>
-            </div>
-        `;
+        return card;
     }
 
     function initCalendar() {
@@ -308,21 +336,11 @@ const buildYear = now.getFullYear();
             return;
         }
 
-        const monthLabelEl = document.getElementById(
-            'cal-month-label'
-        ) as HTMLElement | null;
-        const prevBtnEl = document.getElementById(
-            'cal-prev'
-        ) as HTMLButtonElement | null;
-        const nextBtnEl = document.getElementById(
-            'cal-next'
-        ) as HTMLButtonElement | null;
-        const emptyEl = document.getElementById(
-            'cal-empty'
-        ) as HTMLElement | null;
-        const eventsListEl = document.getElementById(
-            'cal-events'
-        ) as HTMLElement | null;
+        const monthLabelEl = document.getElementById('cal-month-label');
+        const prevBtnEl = document.getElementById('cal-prev') as HTMLButtonElement | null;
+        const nextBtnEl = document.getElementById('cal-next') as HTMLButtonElement | null;
+        const emptyEl = document.getElementById('cal-empty');
+        const eventsListEl = document.getElementById('cal-events');
 
         if (!monthLabelEl || !prevBtnEl || !nextBtnEl || !emptyEl || !eventsListEl)
             return;
@@ -366,7 +384,9 @@ const buildYear = now.getFullYear();
             } else {
                 empty.classList.add('hidden');
                 eventsList.classList.remove('hidden');
-                eventsList.innerHTML = monthEvents.map(renderEvent).join('');
+                eventsList.replaceChildren(
+                    ...monthEvents.map(renderEvent)
+                );
             }
         }
 
