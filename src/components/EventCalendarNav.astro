@@ -1,0 +1,36 @@
+---
+// Month navigation header for EventCalendar
+---
+
+<div class="flex items-center justify-between mb-6">
+    <button
+        id="cal-prev"
+        type="button"
+        class="flex items-center gap-1 border border-vp-purple text-vp-purple rounded-xl px-4 py-2 font-raleway font-bold text-sm transition-all duration-300 hover:bg-vp-purple hover:text-white hover:-translate-y-0.5 hover:shadow-sm"
+        aria-label="Previous month"
+    >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+            ></path>
+        </svg>
+        Prev
+    </button>
+    <h3
+        id="cal-month-label"
+        class="font-raleway font-bold text-xl md:text-2xl text-vp-purple m-0"
+    >
+        Loading...
+    </h3>
+    <button
+        id="cal-next"
+        type="button"
+        class="flex items-center gap-1 border border-vp-purple text-vp-purple rounded-xl px-4 py-2 font-raleway font-bold text-sm transition-all duration-300 hover:bg-vp-purple hover:text-white hover:-translate-y-0.5 hover:shadow-sm"
+        aria-label="Next month"
+    >
+        Next
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+            ></path>
+        </svg>
+    </button>
+</div>

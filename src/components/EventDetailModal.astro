@@ -1,0 +1,53 @@
+---
+// Modal overlay + dialog for displaying full event details.
+// Opened programmatically via openEventModal() from src/scripts/event-modal.ts.
+// Dismissed by clicking the overlay or pressing Escape.
+---
+
+<div id="cal-overlay" class="hidden fixed inset-0 w-screen h-screen bg-black/50 z-51"></div>
+<div id="cal-modal" class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-52" role="dialog" aria-modal="true" aria-label="Event details">
+    <div class="bg-vp-light-pink rounded-xl p-6 md:p-8 shadow-lg w-[90vw] max-w-lg max-h-[85vh] overflow-y-auto">
+        <div class="flex gap-4 mb-4">
+            <div class="event-date-badge flex flex-col items-center justify-center min-w-16 md:min-w-20 rounded-lg bg-vp-dark-purple text-white py-3 px-2">
+                <span id="modal-month-short" class="font-raleway text-xs font-bold tracking-wider opacity-80"></span>
+                <span id="modal-day-num" class="font-raleway text-2xl md:text-3xl font-bold leading-none"></span>
+                <span id="modal-day-name" class="font-raleway text-xs opacity-80"></span>
+            </div>
+            <div class="flex-1 min-w-0 flex flex-col justify-center">
+                <h3 id="modal-title" class="font-raleway font-bold text-lg md:text-xl text-vp-black m-0"></h3>
+            </div>
+        </div>
+        <div class="flex flex-col gap-3">
+            <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 shrink-0 text-vp-purple" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"></path>
+                </svg>
+                <span id="modal-time" class="font-freight text-sm md:text-base text-vp-purple"></span>
+            </div>
+            <div id="modal-location-wrapper" class="flex items-start gap-2">
+                <svg class="w-4 h-4 shrink-0 text-vp-black/60 mt-0.5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path>
+                </svg>
+                <span id="modal-location" class="font-freight text-sm md:text-base text-vp-black/60"></span>
+            </div>
+            <div id="modal-description-wrapper">
+                <hr class="border-vp-purple/20 my-2" />
+                <div id="modal-description" class="font-raleway text-sm md:text-base text-vp-black/70 leading-relaxed"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    import { closeEventModal } from '../scripts/event-modal';
+
+    const calOverlay = document.getElementById('cal-overlay');
+
+    // Dismiss on overlay click
+    calOverlay?.addEventListener('click', closeEventModal);
+
+    // Dismiss on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeEventModal();
+    });
+</script>

@@ -1,0 +1,329 @@
+---
+import { GOOGLE_CALENDAR_ID } from '../consts';
+import { fetchCalendarEvents } from '../lib/google-calendar';
+import EventCalendarNav from './EventCalendarNav.astro';
+import EventCardTemplate from './EventCardTemplate.astro';
+import EventDetailModal from './EventDetailModal.astro';
+
+const { events, fetchError } = await fetchCalendarEvents(
+    GOOGLE_CALENDAR_ID,
+    import.meta.env.CALENDAR_API_KEY
+);
+
+const now = new Date();
+const buildMonth = now.getMonth();
+const buildYear = now.getFullYear();
+---
+
+<div
+    id="event-calendar"
+    class="w-full"
+    data-build-month={buildMonth}
+    data-build-year={buildYear}
+>
+    <script
+        is:inline
+        id="cal-event-data"
+        type="application/json"
+        set:html={JSON.stringify(events)}
+    />
+
+    <EventCalendarNav />
+
+    {
+        fetchError ? (
+            <div class="py-12 text-center">
+                <svg
+                    class="w-12 h-12 mx-auto text-vp-purple/40 mb-4"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                >
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                </svg>
+                <p class="font-raleway text-vp-black/60">
+                    Unable to load events due to system error. Please check back later.
+                </p>
+            </div>
+        ) : (
+            <>
+                <div
+                    id="cal-empty"
+                    class="hidden py-12 text-center"
+                >
+                    <svg
+                        class="w-12 h-12 mx-auto text-vp-purple/40 mb-4"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                    >
+                        <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" />
+                    </svg>
+                    <p class="font-raleway text-vp-black/60">
+                        No upcoming events this month.
+                    </p>
+                </div>
+
+                <div
+                    id="cal-events"
+                    class="flex flex-col gap-4"
+                />
+            </>
+        )
+    }
+    <EventCardTemplate />
+</div>
+
+<EventDetailModal />
+
+<script>
+    import type { CalendarEvent } from '../types/calendar';
+    import {
+        MONTH_NAMES,
+        formatTime,
+        formatDayDate,
+        isAllDay,
+        getEventStartDate,
+        getEventEndDate,
+        getEventMonth,
+        filterEventsByMonth,
+        renderLocation,
+    } from '../scripts/calendar-utils';
+    import { openEventModal } from '../scripts/event-modal';
+
+    // --- Calendar card rendering ---
+
+    function renderEvent(
+        event: CalendarEvent,
+        eventIndex: number
+    ): HTMLElement {
+        const template = document.getElementById(
+            'cal-event-template'
+        ) as HTMLTemplateElement;
+        const card = template.content
+            .firstElementChild!.cloneNode(true) as HTMLElement;
+
+        // Store the event index so the click handler can look up the event
+        card.dataset.eventIndex = String(eventIndex);
+
+        const startStr = getEventStartDate(event);
+        const endStr = getEventEndDate(event);
+        const { dayName, dayNum, monthShort } = formatDayDate(startStr);
+
+        // Date badge
+        card.querySelector('[data-field="month-short"]')!.textContent =
+            monthShort;
+        card.querySelector('[data-field="day-num"]')!.textContent =
+            String(dayNum);
+        card.querySelector('[data-field="day-name"]')!.textContent =
+            dayName.slice(0, 3);
+
+        // Title
+        card.querySelector('[data-field="title"]')!.textContent =
+            event.summary || 'Untitled Event';
+
+        // Time
+        const timeDisplay = isAllDay(event)
+            ? 'All Day'
+            : `${formatTime(startStr)} - ${formatTime(endStr)}`;
+        card.querySelector('[data-field="time"]')!.textContent = timeDisplay;
+
+        // Location
+        renderLocation(
+            card.querySelector('[data-field="location-wrapper"]') as HTMLElement,
+            card.querySelector('[data-field="location"]') as HTMLElement,
+            event.location || ''
+        );
+
+        const descEl = card.querySelector(
+            '[data-field="description"]'
+        ) as HTMLElement;
+        const rawDescription = event.description || '';
+
+        // Remove HTML tags and trim whitespace from description
+        const plainDescription = rawDescription
+            .replace(/<[^>]*>/g, '')
+            .trim();
+        if (plainDescription) {
+            descEl.textContent =
+                plainDescription.length > 200
+                    ? plainDescription.slice(0, 200) + '...'
+                    : plainDescription;
+        } else {
+            descEl.classList.add('hidden');
+        }
+
+        return card;
+    }
+
+    function initCalendar() {
+        const container = document.getElementById('event-calendar');
+        if (!container) return;
+
+        // Read pre-fetched event data from the embedded JSON script tag
+        const dataScript = document.getElementById('cal-event-data');
+        if (!dataScript) return;
+
+        let allEvents: CalendarEvent[];
+        try {
+            allEvents = JSON.parse(dataScript.textContent || '[]');
+        } catch {
+            return;
+        }
+
+        const monthLabelEl = document.getElementById('cal-month-label');
+        const prevBtnEl = document.getElementById('cal-prev') as HTMLButtonElement | null;
+        const nextBtnEl = document.getElementById('cal-next') as HTMLButtonElement | null;
+        const emptyEl = document.getElementById('cal-empty');
+        const eventsListEl = document.getElementById('cal-events');
+
+        if (!monthLabelEl || !prevBtnEl || !nextBtnEl || !emptyEl || !eventsListEl)
+            return;
+
+        const monthLabel: HTMLElement = monthLabelEl;
+        const prevBtn: HTMLButtonElement = prevBtnEl;
+        const nextBtn: HTMLButtonElement = nextBtnEl;
+        const empty: HTMLElement = emptyEl;
+        const eventsList: HTMLElement = eventsListEl;
+
+        // Use build-time month as the baseline (data-build-month, data-build-year)
+        const buildMonth = parseInt(
+            container.dataset.buildMonth || String(new Date().getMonth()),
+            10
+        );
+        const buildYear = parseInt(
+            container.dataset.buildYear || String(new Date().getFullYear()),
+            10
+        );
+
+        let currentYear = buildYear;
+        let currentMonth = buildMonth;
+
+        // Determine the furthest month with data for limiting navigation
+        let maxYear = buildYear;
+        let maxMonth = buildMonth;
+        for (const event of allEvents) {
+            const { year, month } = getEventMonth(event);
+            if (year > maxYear || (year === maxYear && month > maxMonth)) {
+                maxYear = year;
+                maxMonth = month;
+            }
+        }
+
+        function renderMonth(year: number, month: number) {
+            const monthEvents = filterEventsByMonth(allEvents, year, month);
+
+            if (monthEvents.length === 0) {
+                empty.classList.remove('hidden');
+                eventsList.classList.add('hidden');
+            } else {
+                empty.classList.add('hidden');
+                eventsList.classList.remove('hidden');
+                eventsList.replaceChildren(
+                    ...monthEvents.map((event, index) =>
+                        renderEvent(event, index)
+                    )
+                );
+            }
+
+            // Store the current month's events for modal lookups
+            currentMonthEvents = monthEvents;
+        }
+
+        // Track current month's filtered events for modal access
+        let currentMonthEvents: CalendarEvent[] = [];
+
+        // Event delegation: open modal when date badge or title is clicked
+        eventsList.addEventListener('click', (e) => {
+            const target = e.target as HTMLElement;
+
+            // Check if click is on the date badge trigger or title
+            const trigger =
+                target.closest('[data-field="date-trigger"]') ||
+                target.closest('[data-field="title"]');
+            if (!trigger) return;
+
+            const card = target.closest('[data-event-index]') as HTMLElement | null;
+            if (!card) return;
+
+            const index = parseInt(card.dataset.eventIndex || '', 10);
+            if (Number.isNaN(index) || !currentMonthEvents[index]) return;
+
+            openEventModal(currentMonthEvents[index]);
+        });
+
+        // Also handle keyboard activation (Enter/Space) on triggers
+        eventsList.addEventListener('keydown', (e) => {
+            if (e.key !== 'Enter' && e.key !== ' ') return;
+
+            const target = e.target as HTMLElement;
+            const trigger =
+                target.closest('[data-field="date-trigger"]') ||
+                target.closest('[data-field="title"]');
+            if (!trigger) return;
+
+            e.preventDefault();
+            const card = target.closest('[data-event-index]') as HTMLElement | null;
+            if (!card) return;
+
+            const index = parseInt(card.dataset.eventIndex || '', 10);
+            if (Number.isNaN(index) || !currentMonthEvents[index]) return;
+
+            openEventModal(currentMonthEvents[index]);
+        });
+
+        function updateMonth(year: number, month: number) {
+            currentYear = year;
+            currentMonth = month;
+            monthLabel.textContent = `${MONTH_NAMES[month]} ${year}`;
+
+            // Disable prev button if viewing the build month (earliest with data)
+            const isFirstMonth =
+                year === buildYear && month === buildMonth;
+            prevBtn.disabled = isFirstMonth;
+            prevBtn.classList.toggle('opacity-40', isFirstMonth);
+            prevBtn.classList.toggle('cursor-not-allowed', isFirstMonth);
+
+            // Disable next button if viewing the last month with data
+            const isLastMonth =
+                year === maxYear && month === maxMonth;
+            nextBtn.disabled = isLastMonth;
+            nextBtn.classList.toggle('opacity-40', isLastMonth);
+            nextBtn.classList.toggle('cursor-not-allowed', isLastMonth);
+
+            renderMonth(year, month);
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (prevBtn.disabled) return;
+            let newMonth = currentMonth - 1;
+            let newYear = currentYear;
+            if (newMonth < 0) {
+                newMonth = 11;
+                newYear--;
+            }
+            updateMonth(newYear, newMonth);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (nextBtn.disabled) return;
+            let newMonth = currentMonth + 1;
+            let newYear = currentYear;
+            if (newMonth > 11) {
+                newMonth = 0;
+                newYear++;
+            }
+            updateMonth(newYear, newMonth);
+        });
+
+        // Initialize with the build month
+        updateMonth(currentYear, currentMonth);
+    }
+
+    // Run initialization after DOM is ready
+    // NOTE: this uses DOMContentLoaded instead of astro:page-load,
+    // because we don't use View Transitions
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCalendar);
+    } else {
+        initCalendar();
+    }
+</script>

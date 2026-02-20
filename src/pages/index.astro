@@ -9,6 +9,7 @@ import BrevoScripts from '../components/BrevoScripts.astro';
 import SvgButtonLink from '../components/SvgButtonLink.astro';
 import SubscribeButton from '../components/SubscribeButton.astro';
 import InfoCard from '../components/InfoCard.astro';
+import EventCalendar from '../components/EventCalendar.astro';
 
 const INDEX_PAGE_BLOG_POSTS_LIMIT = 6;
 const MAX_TITLE_LENGTH = 45;
@@ -178,18 +179,7 @@ const PAGE_TITLE = `${SITE_TITLE}`;
                             community as we implement our shared vision. Let's
                             work together to reshape Vancouver, together!
                         </p>
-                        <iframe
-                            src="https://embed.styledcalendar.com/#itqSaKdVwkGqwxlBNgyB"
-                            title="Styled Calendar"
-                            class="styled-calendar-container"
-                            style="width: 100%; border: 1px solid; margin: 0;"
-                            data-cy="calendar-embed-iframe"></iframe>
-                        <script
-                            async
-                            is:inline
-                            type="module"
-                            src="https://embed.styledcalendar.com/assets/parent-window.js"
-                        ></script>
+                        <EventCalendar />
                     </div>
                 </div>
             </section>
