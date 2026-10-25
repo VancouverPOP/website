@@ -60,7 +60,7 @@ Seeing the potential opportunity and eager for a new project, VanPOP leadership 
 <br>
 <br>
 
-After VanPOP posted flyers with a QR code linked to a survey where locals could suggest improvements they’d like to see on the bridge, the next step was to review that local input and bring as much of it as possible to the tactical urbanism day in early March 2025.  The unseasonably sunny and mild weather that Saturday exuded the group’s optimism.  Volunteers from VanPOP, Vision Zero Vancouver, and allies brought benches made from pallets, plastic playground items, sidewalk chalk, sign boards, banners, planters, a large picnic table, etc.  It was an absolutely wonderful day and the parklet was named, at least temporarily, as “Woodland Bike Bridge” (photos below).  I won’t reiterate the highs and lows because one of VanPOP’s leaders, [Nav Sharma](https://archive.strongtowns.org/journal/2024/11/14/manav-sharma-bottom-up-shorts-mdf24), already wrote an excellent article about it, so I suggest reading more details [here](https://vanpop.ca/blog/20250513-community-transforms-vancouver-neighbourhood-bridge/).  But to abbreviate, City of Vancouver staff removed and pitched it all, likely for similar reasons as [this Strong Towns article about cities shutting down residents](https://archive.strongtowns.org/journal/2025/8/4/what-happens-when-residents-act-and-cities-shut-it-down) (published within a few months).
+After VanPOP posted flyers with a QR code linked to a survey where locals could suggest improvements they’d like to see on the bridge, the next step was to review that local input and bring as much of it as possible to the tactical urbanism day in early March 2025.  The unseasonably sunny and mild weather that Saturday exuded the group’s optimism.  Volunteers from VanPOP, Vision Zero Vancouver, and allies brought benches made from pallets, plastic playground items, sidewalk chalk, sign boards, banners, planters, a large picnic table, etc.  It was an absolutely wonderful day and the parklet was named, at least temporarily, as “Woodland Bike Bridge” (photos below).  I won’t reiterate the highs and lows because one of VanPOP’s leaders, [Nav Sharma](https://archive.strongtowns.org/journal/2024/11/14/manav-sharma-bottom-up-shorts-mdf24), already wrote an [excellent article about it, so I suggest reading more details here](https://vanpop.ca/blog/20250513-community-transforms-vancouver-neighbourhood-bridge/).  But to abbreviate, City of Vancouver staff removed and pitched it all, likely for similar reasons as [this Strong Towns article about cities shutting down residents](https://archive.strongtowns.org/journal/2025/8/4/what-happens-when-residents-act-and-cities-shut-it-down) (published within a few months).
 
 <br>
 
@@ -99,7 +99,7 @@ While Dawson and VanPOP leadership coordinated the future of the Woodland Bike B
 
 <br>
 
-In May 2025, the City of Vancouver contacted Dawson and VanPOP stating, 
+In May 2025, the City of Vancouver contacted Dawson and VanPOP stating,
 
 <br>
 
@@ -162,7 +162,7 @@ Dawson was connected with another local non-profit community art and advocacy gr
 <br>
 <br>
 
-In July 2026 on a sunny Saturday, Community Marks and VanPOP were graced with beautiful weather (again) as 200+ volunteers arrived to help turn the separated plaza area of the bridge into a 50-meter long asphalt mural as the final installment of the [Woodland Bridge Plaza (as many folks started calling it)](https://maps.app.goo.gl/XKRD1uf9rNMadaDD9).  A local resident on Instagram even made a flyover video about it [here](https://www.instagram.com/reel/Dav8N1hybC3/).  Not long after the paint dried, Dawson applied, and was awarded, another $3,000 Community Placemaking grant for more events and activations throughout that summer, which he posted via his [Woodland Bridge Plaza Instagram account](https://www.instagram.com/woodlandbridgeplaza/) to gain even more attention and attendance than in 2025.  
+In July 2026 on a sunny Saturday, Community Marks and VanPOP were graced with beautiful weather (again) as 200+ volunteers arrived to help turn the separated plaza area of the bridge into a 50-meter long asphalt mural as the final installment of the [Woodland Bridge Plaza (as many folks started calling it)](https://maps.app.goo.gl/XKRD1uf9rNMadaDD9).  A local resident on Instagram [even made a flyover video about it here](https://www.instagram.com/reel/Dav8N1hybC3/).  Not long after the paint dried, Dawson applied, and was awarded, another $3,000 Community Placemaking grant for more events and activations throughout that summer, which he posted via his [Woodland Bridge Plaza Instagram account](https://www.instagram.com/woodlandbridgeplaza/) to gain even more attention and attendance than in 2025.  
 
 <br>
 
