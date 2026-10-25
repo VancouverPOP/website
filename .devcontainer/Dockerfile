@@ -2,16 +2,12 @@ ARG PLATFORM
 
 FROM --platform=${PLATFORM} debian:latest
 
-ARG NODE_VERSION=22.15.0
-ARG PNPM_VERSION=10.10.0
-ARG NODE_PLATFORM
-
 ARG USERNAME=dev
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
 # Install dependencies, and productivity tools
-RUN apt update && apt upgrade -y && apt install sudo git wget curl zsh bat htop -y && update-ca-certificates
+RUN apt update && apt upgrade -y && apt install sudo git wget curl zsh bat htop gcc -y && update-ca-certificates
 RUN apt install -y gpg && mkdir -p /etc/apt/keyrings && \
     wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | gpg --dearmor -o /etc/apt/keyrings/gierens.gpg && \
     echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | tee /etc/apt/sources.list.d/gierens.list && \
@@ -19,16 +15,9 @@ RUN apt install -y gpg && mkdir -p /etc/apt/keyrings && \
     apt update && \
     apt install -y eza
 
-# Install NodeJS
-ADD https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-${NODE_PLATFORM}.tar.gz /node.tar.gz
-RUN tar -xz -f /node.tar.gz -C /usr/local --remove-files --strip-components=1 \
-    --exclude='*.md' --exclude='LICENSE' \
-    --exclude='share' --exclude='lib/node_modules/' \
-    --exclude='bin/npm' --exclude='bin/npx' --exclude='bin/corepack'
-
-# Install PNPM binary   
-ADD https://github.com/pnpm/pnpm/releases/download/v$PNPM_VERSION/pnpm-${NODE_PLATFORM} /usr/local/bin/pnpm
-RUN chmod a+rx /usr/local/bin/pnpm
+# Get pnpm binary from pnpm image
+COPY --from=ghcr.io/pnpm/pnpm:12 /opt/pnpm /opt/pnpm
+RUN ln -s /opt/pnpm/pnpm /usr/local/bin/pnpm
 
 # Add permissions to the dev user
 RUN groupadd --gid $USER_GID $USERNAME && \

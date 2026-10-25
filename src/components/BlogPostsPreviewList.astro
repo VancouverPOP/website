@@ -32,7 +32,7 @@ const posts = (await getCollection('blog'))
                         <li class="mx-2 py-2">
                             <a
                                 class="flex flex-col items-center"
-                                href={`/blog/${post.slug}/`}
+                                href={`/blog/${post.id}/`}
                                 aria-label={post.data.title}
                             >
                                 <img

@@ -1,7 +1,7 @@
 name: Build Website - PR
 
 on:
-  pull_request: 
+  pull_request:
     branches: ["main"]
 
   workflow_dispatch:
@@ -15,25 +15,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - name: Install pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 8
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "pnpm"
-      - name: Install dependencies
-        run: pnpm install
-        working-directory: ${{ env.BUILD_PATH }}
+        uses: actions/checkout@v7
+      - name: Install node and pnpm
+        uses: pnpm/setup@v3
       - name: Build with Astro
         run: |
           pnpm astro build
         working-directory: ${{ env.BUILD_PATH }}
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: website
           path: dist/
