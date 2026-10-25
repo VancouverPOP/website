@@ -1,12 +1,13 @@
 {
     "$schema": "https://raw.githubusercontent.com/devcontainers/spec/refs/heads/main/schemas/devContainer.schema.json",
     "name": "Debian Container (arm64)",
-    "dockerFile": "../Dockerfile",
+    "remoteUser": "dev",
     "containerUser": "dev",
     "workspaceMount": "source=${localWorkspaceFolder},target=/home/dev/workspace,type=bind",
     "workspaceFolder": "/home/dev/workspace",
-    "postCreateCommand": "pnpm install",
+    "postCreateCommand": "pnpm i --frozen-lockfile",
     "build": {
+        "dockerfile": "../Dockerfile",
         "args": {
             "PLATFORM": "linux/arm64",
             "NODE_PLATFORM": "linux-arm64"
@@ -16,7 +17,7 @@
     "customizations": {
         "vscode": {
             "settings": {
-                "extensions.verifySignature": false,
+                "extensions.verifySignature": true,
                 "npm.packageManager": "pnpm"
             },
             "extensions": [

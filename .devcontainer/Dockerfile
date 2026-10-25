@@ -2,8 +2,8 @@ ARG PLATFORM
 
 FROM --platform=${PLATFORM} debian:latest
 
-ARG NODE_VERSION=22.15.0
-ARG PNPM_VERSION=10.10.0
+ARG NODE_VERSION=24.22.1
+ARG PNPM_VERSION=12.15.0
 ARG NODE_PLATFORM
 
 ARG USERNAME=dev
@@ -26,9 +26,9 @@ RUN tar -xz -f /node.tar.gz -C /usr/local --remove-files --strip-components=1 \
     --exclude='share' --exclude='lib/node_modules/' \
     --exclude='bin/npm' --exclude='bin/npx' --exclude='bin/corepack'
 
-# Install PNPM binary   
-ADD https://github.com/pnpm/pnpm/releases/download/v$PNPM_VERSION/pnpm-${NODE_PLATFORM} /usr/local/bin/pnpm
-RUN chmod a+rx /usr/local/bin/pnpm
+# Get pnpm binary from pnpm image
+COPY --from=ghcr.io/pnpm/pnpm:12 /opt/pnpm /opt/pnpm
+RUN ln -s /opt/pnpm/pnpm /usr/local/bin/pnpm
 
 # Add permissions to the dev user
 RUN groupadd --gid $USER_GID $USERNAME && \
