@@ -8,7 +8,8 @@ import robotsTxt from "astro-robots-txt";
 // See configuration guide: https://astro.build/config
 export default defineConfig({
   site: 'https://vanpop.ca',
-  integrations: [mdx(), sitemap(), robotsTxt()],
+    integrations: [mdx(), sitemap(), robotsTxt()],
+  compressHTML: true,
   vite: {
     plugins: [tailwindcss()]
   },
