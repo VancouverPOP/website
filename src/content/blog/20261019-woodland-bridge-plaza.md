@@ -1,7 +1,7 @@
 ---
 title: "Woodland Bridge Plaza:  When a Space Becomes a Place"
 pubDate: 2026-10-19
-heroImage: /blog-assets/blog-placeholder.jpg
+heroImage: /blog-assets/20261019-woodland-bridge-plaza/10.webp
 author: Kip Santos
 ---
 
@@ -9,7 +9,7 @@ In a neighbourhood in [East Vancouver](https://en.wikipedia.org/wiki/East_Vancou
 
 <br>
 
-<center><img class="blog-image" src="/blog-assets/blog-placeholder.jpg" alt=""></center>
+<center><img class="blog-image" src="/blog-assets/20261019-woodland-bridge-plaza/1.png" alt="Google Street View of Woodland Drive and 7th Avenue in Vancouver, BC"></center>
 <center>(Source:  Google Maps Street View, July 2024)</center>
 
 <br>
@@ -19,7 +19,7 @@ Local residents [Tajai and Logan](https://thetyee.ca/Analysis/2025/01/24/Banana-
 
 <br>
 
-<center><img class="blog-image" src="/blog-assets/blog-placeholder.jpg" alt=""></center>
+<center><img class="blog-image" src="/blog-assets/20261019-woodland-bridge-plaza/2.jpg" alt="Tajai and Logan are part of a regular group of neighbours who make frequent use of an outdoor gathering space near their apartments to enjoy each other’s company."></center>
 <center>(<a href="https://thetyee.ca/Analysis/2025/01/24/Banana-Barriers-Arrived-Bang-Transformed-Street/">Source:  The Tyee</a>)</center>
 
 <br>
@@ -34,7 +34,7 @@ The [next smallest step](https://www.strongtowns.org/journal/2019-9-23-the-stron
 <br>
 <br>
 
-<center><img class="blog-image" src="/blog-assets/blog-placeholder.jpg" alt=""></center>
+<center><img class="blog-image" src="/blog-assets/20261019-woodland-bridge-plaza/3.png" alt="Eli Carlin-Coleman posting a message in the VanPOP Discord channel"></center>
 <center>(Source: Eli Carlin-Coleman, VanPOP Discord channel)</center>
 
 <br>
@@ -44,7 +44,7 @@ VanPOP’s other co-founder, [Kip Santos](https://archive.strongtowns.org/journa
 
 <br>
 
-<center><img class="blog-image" src="/blog-assets/blog-placeholder.jpg" alt=""></center>
+<center><img class="blog-image" src="/blog-assets/20261019-woodland-bridge-plaza/4.png" alt="Impromptu rendering from Khang of Vision Zero Vancouver"></center>
 <center>(Source: Khang, VanPOP Discord channel)</center>
 
 <br>
@@ -54,17 +54,17 @@ Seeing the potential opportunity and eager for a new project, VanPOP leadership 
 
 <br>
 
-<center><img class="blog-image" src="/blog-assets/blog-placeholder.jpg" alt=""></center>
-<center>(Source: VanPOP, Pierre (left) with Eli Carlin-Coleman (right) annotating rough measurements)</center>
+<center><img class="blog-image" src="/blog-assets/20261019-woodland-bridge-plaza/5.jpg" alt="Pierre (left) with Eli Carlin-Coleman (right) annotating rough measurements"></center>
+<center>(Source: Khang, VanPOP Discord channel, Pierre (left) with Eli Carlin-Coleman (right) annotating rough measurements)</center>
 
 <br>
 <br>
 
-After VanPOP posted flyers with a QR code linked to a survey where locals could suggest improvements they’d like to see on the bridge, the next step was to review that local input and bring as much of it as possible to the tactical urbanism day in early March 2025.  The unseasonably sunny and mild weather that Saturday exuded the group’s optimism.  Volunteers from VanPOP, Vision Zero Vancouver, and allies brought benches made from pallets, plastic playground items, sidewalk chalk, sign boards, banners, planters, a large picnic table, etc.  It was an absolutely wonderful day and the parklet was named, at least temporarily, as “Woodland Bike Bridge” (photos below).  I won’t reiterate the highs and lows because one of VanPOP’s leaders, [Nav Sharma](https://archive.strongtowns.org/journal/2024/11/14/manav-sharma-bottom-up-shorts-mdf24), already wrote an [excellent article about it, so I suggest reading more details here](https://vanpop.ca/blog/20250513-community-transforms-vancouver-neighbourhood-bridge/).  But to abbreviate, City of Vancouver staff removed and pitched it all, likely for similar reasons as [this Strong Towns article about cities shutting down residents](https://archive.strongtowns.org/journal/2025/8/4/what-happens-when-residents-act-and-cities-shut-it-down) (published within a few months).
+After Eli and other VanPOP leaders posted flyers with a QR code linked to a survey where locals could suggest improvements they’d like to see on the bridge, the next step was to review that local input and bring as much of it as possible to the tactical urbanism day in early March 2025.  The unseasonably sunny and mild weather that Saturday exuded the group’s optimism.  Volunteers from VanPOP, Vision Zero Vancouver, and allies brought benches made from pallets, plastic playground items, sidewalk chalk, sign boards, banners, planters, a large picnic table, etc.  It was an absolutely wonderful day and the parklet was named, at least temporarily, as “Woodland Bike Bridge” (photos below).  I won’t reiterate the highs and lows because one of VanPOP’s leaders, [Nav Sharma](https://archive.strongtowns.org/journal/2024/11/14/manav-sharma-bottom-up-shorts-mdf24), already wrote an [excellent article about it, so I suggest reading more details here](https://vanpop.ca/blog/20250513-community-transforms-vancouver-neighbourhood-bridge/).  But to abbreviate, City of Vancouver staff removed and pitched it all, likely for similar reasons as [this Strong Towns article about cities shutting down residents](https://archive.strongtowns.org/journal/2025/8/4/what-happens-when-residents-act-and-cities-shut-it-down) (published within a few months).
 
 <br>
 
-<center><img class="blog-image" src="/blog-assets/20250513-community-transforms-vancouver-neighbourhood-bridge/3.webp" alt=""></center>
+<center><img class="blog-image" src="/blog-assets/20250513-community-transforms-vancouver-neighbourhood-bridge/3.webp" alt="A person is riding a bike through Woodland Bike Bridge"></center>
 <center>(Source: Nav Sharma)
 </center>
 
@@ -73,7 +73,7 @@ After VanPOP posted flyers with a QR code linked to a survey where locals could 
 
 <br>
 
-<center><img class="blog-image" src="/blog-assets/20250513-community-transforms-vancouver-neighbourhood-bridge/1.webp" alt=""></center>
+<center><img class="blog-image" src="/blog-assets/20250513-community-transforms-vancouver-neighbourhood-bridge/1.webp" alt="Strong Towns Vancouver and Vision Zero Vancouver volunteers, local residents and curious visitors pose for a photo in front of the Woodland BikeBridge banner on setup day"></center>
 <center>(Source: Nic Laporte)</center>
 
 <br>
@@ -111,7 +111,7 @@ Woohoo, go team!  Dawson immediately went to work planning 18 events on the brid
 
 <br>
 
-<center><img class="blog-image" src="/blog-assets/blog-placeholder.jpg" alt=""></center>
+<center><img class="blog-image" src="/blog-assets/20261019-woodland-bridge-plaza/8.jpg" alt="Photo of people enjoying street activities on Woodland Bridge."></center>
 <center>(Source: Kip Santos)</center>
 
 <br>
@@ -141,7 +141,7 @@ At long last in June 2026 (over one year from VanPOP’s tactical urbanism event
 
 <br>
 
-<center><img class="blog-image" src="/blog-assets/blog-placeholder.jpg" alt=""></center>
+<center><img class="blog-image" src="/blog-assets/20261019-woodland-bridge-plaza/9.jpg" alt="Photo of the newly installed picnic benches, barriers, and flexposts on Woodland Bridge"></center>
 <center>(<a href="https://pages.strongtowns.org/this-is-what-bottom-up-change-looks-like">Source: Strong Towns</a>)</center>
 
 <br>
@@ -151,12 +151,12 @@ Dawson was connected with another local non-profit community art and advocacy gr
 
 <br>
 
-<center><img class="blog-image" src="/blog-assets/blog-placeholder.jpg" alt=""></center>
+<center><img class="blog-image" src="/blog-assets/20261019-woodland-bridge-plaza/10.webp" alt="People participating in the neighbourhood paint day on Woodland Bridge"></center>
 <center>(<a href="https://pages.strongtowns.org/this-is-what-bottom-up-change-looks-like">Source: Strong Towns</a>)</center>
 
 <br>
 
-<center><img class="blog-image" src="/blog-assets/blog-placeholder.jpg" alt=""></center>
+<center><img class="blog-image" src="/blog-assets/20261019-woodland-bridge-plaza/11.png" alt="People participating in the neighbourhood paint day on Woodland Bridge"></center>
 <center>(<a href="https://www.communitymarks.ca/">Source: Community Marks</a>)</center>
 
 <br>
@@ -166,7 +166,7 @@ In July 2026 on a sunny Saturday, Community Marks and VanPOP were graced with be
 
 <br>
 
-Nav wrote another succinct article about this collaborative endeavor in his [LinkedIn post](https://www.linkedin.com/posts/manavsharmaca_this-used-to-be-a-roadway-now-its-a-thriving-ugcPost-7461202725259800576-QXLJ/) stating,
+Nav Sharma wrote another succinct article about this collaborative endeavor in his [LinkedIn post](https://www.linkedin.com/posts/manavsharmaca_this-used-to-be-a-roadway-now-its-a-thriving-ugcPost-7461202725259800576-QXLJ/) stating,
 
 <br>
 
